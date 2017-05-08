@@ -1,0 +1,58 @@
+﻿  <div id="editForm" ng-controller="editCidadeCtrl">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <span class='glyphicon glyphicon-th-list'></span><span>&nbsp;Cidade</span>
+            </div>
+            <div class="panel-body">
+                <div id="divNome">
+                    <label class="control-label" for="txtNomeCidade">Nome</label>
+                    <input id="txtNomeCidade" type="text" name="txtNomeCidade" class="form-control" />
+                    <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                    <span id="hbNomeCidade" class="help-block">Nome da Cidade</span>
+                </div>
+                <div id="divEstado">
+                    <label class="control-label" for="ddlEstado">Estado</label>
+                    <select id="ddlEstado" class="form-control">
+                        <option value="estado">Selecione o Estado</option>
+                        <option value="AC">Acre</option>
+                        <option value="AL">Alagoas</option>
+                        <option value="AM">Amazonas</option>
+                        <option value="AP">Amapá</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="DF">Distrito Federal</option>
+                        <option value="ES">Espírito Santo</option>
+                        <option value="GO">Goiás</option>
+                        <option value="MA">Maranhão</option>
+                        <option value="MT">Mato Grosso</option>
+                        <option value="MS">Mato Grosso do Sul</option>
+                        <option value="MG">Minas Gerais</option>
+                        <option value="PA">Pará</option>
+                        <option value="PB">Paraíba</option>
+                        <option value="PR">Paraná</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="PI">Piauí</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="RN">Rio Grande do Norte</option>
+                        <option value="RO">Rondônia</option>
+                        <option value="RS">Rio Grande do Sul</option>
+                        <option value="RR">Roraima</option>
+                        <option value="SC">Santa Catarina</option>
+                        <option value="SE">Sergipe</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="TO">Tocantins</option>
+                    </select>
+                    <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                    <span id="hdTipo" class="help-block">Selecione UM!!!.</span>
+                </div>
+                <div id="divAlertSave" class="alert alert-danger">
+                    <strong>Sinto Muito!</strong> Não foi possível salvar!! 
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button type="button" class="btn btn-default" onclick="editClose();">Fechar</button>
+                <button type="button" class="btn btn-primary" onclick="save();">Salvar</button>
+            </div>
+        </div>
+    </div>
+  

@@ -3,6 +3,10 @@ var bodyParser = require('body-parser');
 
 var connection = require('./BackEnd/connection');
 var cidadeService = require('./BackEnd/cidadeService');
+var clienteService = require('./BackEnd/clienteService');
+var profissaoService = require('./BackEnd/profissaoService');
+var bairroService = require('./BackEnd/bairroService');
+
 
 app = express();
 app.use(bodyParser.json()); // support json encoded bodies
@@ -17,28 +21,17 @@ app.get('/', function(req, res){
     res.sendFile(__dirname + '/frontEnd/Index.html');
 });
 
+
 app.get('/cidades', function (req, res) {
     if (req.query["cmd"] != null) {
         if (req.query.cmd === "Select") {
-            var filtro = {
-                cmd:req.query.cmd,
-                descCidade: req.query.descCidade,
-                skip: req.query.skip,
-                take: req.query.take
-            };
-
-            cidadeService.select(db, filtro, function (rows) {
+            cidadeService.select(db, req.query, function (rows) {
                 res.write(JSON.stringify(rows));
                 res.end();
             });
         }
         if (req.query.cmd === "Count") {
-            var filtro = {
-                cmd: req.query.cmd,
-                descCidade: req.query.descCidade
-            };
-
-            cidadeService.select(db, filtro, function (rows) {
+            cidadeService.select(db, req.query, function (rows) {
                 res.write(JSON.stringify(rows));
                 res.end();
             });
@@ -71,6 +64,45 @@ app.post('/cidades', function (req, res) {
         res.end('{"success" : "success", "status" : 200}');
     });
 });
+
+
+app.get('/clientes', function (req, res) {
+    if (req.query["cmd"] != null) {
+        if (req.query.cmd === "Select") {
+            clienteService.select(db, req.query, function (rows) {
+                res.write(JSON.stringify(rows));
+                res.end();
+            });
+        }
+        if (req.query.cmd === "Count") {
+               clienteService.select(db, req.query, function (rows) {
+                res.write(JSON.stringify(rows));
+                res.end();
+            });
+        }
+    }
+});
+
+
+app.get('/profissoes', function (req, res) {
+    if (req.query["cmd"] != null) {
+        profissaoService.select(db, req.query, function (rows) {
+            res.write(JSON.stringify(rows));
+            res.end();
+        });
+    }
+});
+
+
+app.get('/bairros', function (req, res) {
+    if (req.query["cmd"] != null) {
+        bairroService.select(db, req.query, function (rows) {
+            res.write(JSON.stringify(rows));
+            res.end();
+        });
+    }
+});
+
 
 var server = app.listen(3000);
 console.log('Servidor Express iniciado na porta %s', server.address().port);

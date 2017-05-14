@@ -13,13 +13,15 @@ var cidadeService = (function () {
     }
 
     var _select = function (db, filtro, callback) {
+
+        //console.log(filtro);
         var queryString = "";
         if (filtro.cmd =="Count") {
             queryString = 'SELECT COUNT(*) AS Total FROM Cidade WHERE NomeCidade LIKE ?';
         } else {
             queryString = "SELECT * FROM Cidade WHERE NomeCidade LIKE ? limit " + filtro.skip + "," + filtro.take;
         }
-        var list = db.query(queryString, '%' + filtro.descCidade + '%', function (err, rows, fields) {
+        var list = db.query(queryString, '%' + filtro.NomeCidade + '%', function (err, rows, fields) {
             if (err) {
                 console.log(err);
                 throw err

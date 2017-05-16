@@ -30,8 +30,14 @@ var clienteService = (function () {
  
 
     var _save = function (db, cliente, callback) {
-        if (cliente.CodCliente === 0) {
+       
+
+        if (cliente.CodCliente === "0") {
             delete cliente.CodCliente;
+            if (cliente.DataNasc) cliente.DataNasc = new Date(cliente.DataNasc);
+            cliente.CodProfissao = (cliente.CodProfissao > 0) ? cliente.CodProfissao : null;
+            cliente.CodCidade = (cliente.CodCidade > 0) ? cliente.CodCidade : null;
+            cliente.CodBairro = (cliente.CodBairro > 0) ? cliente.CodBairro : null;
             var query = db.query('INSERT INTO Cliente SET ?', cliente, function (err, result) {
                 if (err) {
                     console.log(err);
@@ -94,8 +100,8 @@ var clienteService = (function () {
         }
     }
 
-    var _delete = function (db, id, callback) {
-        var query = db.query('DELETE FROM Cliente WHERE CodCliente = ?', [id], function (err, result) {
+    var _exclude = function (db, filtro, callback) {
+        var query = db.query('DELETE FROM Cliente WHERE CodCliente = ?', [filtro.id], function (err, result) {
             if (err) {
                 console.log(err);
                 throw err
@@ -107,7 +113,7 @@ var clienteService = (function () {
     return {
         select: _select,
         save: _save,
-        delete: _delete
+        exclude: _exclude
     }
 })();
 

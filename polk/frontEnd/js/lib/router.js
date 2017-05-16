@@ -29,6 +29,7 @@ var router = (function () {
             ctrCliente.create();
         });
     }
+   
 
     return {
         getRoute: _getRoute

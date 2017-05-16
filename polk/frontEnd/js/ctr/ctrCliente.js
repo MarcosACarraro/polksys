@@ -1,5 +1,4 @@
 var ctrCliente = (function () {
-    var _mainDiv;
     var _id = 0;
     var _idEdit = 0;
     var _idExcluir = 0;
@@ -8,14 +7,9 @@ var ctrCliente = (function () {
     var _formValid = 0;
     var _pagination = {};
     var _skip = 0;
-    var _take = 10;
+    var _take = 8;
     var _indexPage = 1;
-    var _divleft = {};
-    var _divRight = {};
-    var _mainDiv = {};
-    var _divFilterBody = {};
-    var _divFilter = {};
-    var _divBottom = {};
+
     var _toShow = true;
 
     var _txtNomeCliente = {};
@@ -41,81 +35,28 @@ var ctrCliente = (function () {
 
 
     var _create = function () {
-
         //loginVerify();
-        createMainContainer();
         createFilter();
         createTable();
         createEdit();
-        createBottom();
 
         _confirmDeleteCliente = ConfirmDelete();
-        _confirmDeleteCliente.create("mainContainer", "Cliente");
-    }
+        _confirmDeleteCliente.create("divConfirm", "Cliente");
 
-    function createMainContainer() {
-
-        var _mainContent = window.document.getElementById("divMainContent");
-
-        var _gridPainel = window.document.createElement("div");
-        _gridPainel.setAttribute("id", "gridPainel");
-        _gridPainel.setAttribute("class", "panel-collapse collapse in");
-        _mainContent.appendChild(_gridPainel);
-
-        _divFilter = window.document.createElement("div");
-        _divFilter.setAttribute("class", "panel panel-default");
-        _gridPainel.appendChild(_divFilter);
-
-        var _divFilterHeader = window.document.createElement("div");
-        _divFilterHeader.setAttribute("class", "panel-heading");
-        _divFilter.appendChild(_divFilterHeader);
-
-        var _filterHeaderTitle = window.document.createElement("h3");
-        _filterHeaderTitle.setAttribute("class", "panel-title");
-        _filterHeaderTitle.innerHTML = "<span class='glyphicon glyphicon-th-list'></span><span>&nbsp;Cliente</span>";
-        _divFilterHeader.appendChild(_filterHeaderTitle);
-
-        var _iconFilter = window.document.createElement("span");
-        _iconFilter.setAttribute("id", "iconFilter");
-        _iconFilter.setAttribute("onclick", "javascript:ctrCliente.toggleFilter();")
-        _iconFilter.setAttribute("class", "pull-right clickable");
-        _iconFilter.innerHTML = "Filtrar &nbsp;<i class='glyphicon glyphicon-filter'>";
-        _divFilterHeader.appendChild(_iconFilter);
-
-        var _divFilterBodyCollapse = window.document.createElement("div");
-        _divFilterBodyCollapse.setAttribute("id", "divFilterBodyCollapse");
-        _divFilterBodyCollapse.setAttribute("class", "panel-collapse collapse");
-        _divFilter.appendChild(_divFilterBodyCollapse);
-
-        _divFilterBody = window.document.createElement("div");
-        _divFilterBody.setAttribute("id", "bodyFilter");
-        _divFilterBody.setAttribute("class", "panel-body");
-        _divFilterBodyCollapse.appendChild(_divFilterBody);
-
-        _mainDiv = window.document.createElement("div");
-        _mainDiv.setAttribute("class", "container panel-table");
-        _mainDiv.setAttribute("id", "mainContainer");
-        _divFilter.appendChild(_mainDiv);
-
-        var _editPainel = window.document.createElement("div");
-        _editPainel.setAttribute("id", "editPainel");
-        _editPainel.setAttribute("class", "panel-collapse collapse in");
-        _mainContent.appendChild(_editPainel);
-
-        var _editForm = window.document.getElementById("editForm");
-        _editPainel.appendChild(_editForm);
     }
 
     function createFilter() {
         /*filtro vai no Filter body*/
-        _txtBusca = window.document.createElement("input");
-        _txtBusca.setAttribute("type", "text");
+        _txtBusca = window.document.getElementById("txtSearh");
         _txtBusca.setAttribute("class", "search");
         _txtBusca.onkeyup = _onBuscar;
-        _divFilterBody.appendChild(_txtBusca);
+
     }
+   
 
     function createTable() {
+
+        var _tableContainer = window.document.getElementById("tableContainer");
         /*table vai na div principal*/
         _table = window.document.createElement("table");
         _table.setAttribute("class", "table table-striped table-hover table-responsive");
@@ -129,7 +70,7 @@ var ctrCliente = (function () {
         cell1.innerHTML = "Cliente";
         cell2.innerHTML = "Editar";
         cell3.innerHTML = "Excluir"
-        _mainDiv.appendChild(_table);
+        _tableContainer.appendChild(_table);
 
         _search("");
     }
@@ -194,7 +135,7 @@ var ctrCliente = (function () {
         $.ajax({
             async: true,
             cache: false,
-            url: "http://localhost:3000/profissoes",
+            url: "/profissoes",
             type: "GET",
             data: {
                 cmd:"Select",
@@ -216,7 +157,7 @@ var ctrCliente = (function () {
                 }
             },
             error: function () {
-                alert('Erro carregar registros!');
+                alert('Erro carregar registros profissoes!');
             }
         });
     }
@@ -225,7 +166,7 @@ var ctrCliente = (function () {
         $.ajax({
             async: true,
             cache: false,
-            url: "http://localhost:3000/cidades",
+            url: "/cidades",
             type: "GET",
             data: {
                 cmd:"Select",
@@ -246,7 +187,7 @@ var ctrCliente = (function () {
                 }
             },
             error: function () {
-                alert('Erro carregar registros!');
+                alert('Erro carregar registros cidades!');
             }
         });
     }
@@ -255,9 +196,10 @@ var ctrCliente = (function () {
         $.ajax({
             async: true,
             cache: false,
-            url: "http://localhost:3000/bairros",
+            url: "/bairros",
             type: "GET",
             data: {
+                cmd:"Select",
                 CodCidade: idCidade
             },
             datatype: "JSON",
@@ -279,7 +221,7 @@ var ctrCliente = (function () {
                 }
             },
             error: function () {
-                alert('Erro carregar registros!');
+                alert('Erro carregar registros bairros!');
             }
         });
     }
@@ -292,28 +234,7 @@ var ctrCliente = (function () {
         }
     }
 
-
-    function createBottom() {
-
-        _divBottom = window.document.createElement("div");
-        _divBottom.setAttribute("class", "panel-footer");
-
-        _divleft = window.document.createElement("div");
-
-        var _btnNew = window.document.createElement("button");
-        _btnNew.setAttribute("class", "btn btn-primary pull-right");
-        _btnNew.innerHTML = "Novo";
-        _btnNew.setAttribute("name", "btnNew");
-        _btnNew.setAttribute("onclick", "javascript:ctrCliente.newItem();")
-
-        var _clear = window.document.createElement("div");
-        _clear.setAttribute("class", "clearfix");
-
-        _divBottom.appendChild(_divleft);
-        _divBottom.appendChild(_btnNew);
-        _divBottom.appendChild(_clear);
-        _divFilter.appendChild(_divBottom);
-    }
+   
 
     var _validate = function () {
         _formValid = 0;
@@ -456,7 +377,7 @@ var ctrCliente = (function () {
         $.ajax({
             async: true,
             cache: false,
-            url: "http://localhost:3000/clientes",
+            url: "/clientes",
             type: "GET",
             data: {
                 cmd: "Select",
@@ -472,7 +393,7 @@ var ctrCliente = (function () {
                 }
             },
             error: function () {
-                alert('Erro carregar registros!');
+                alert('Erro carregar registros cliente(search)!');
             }
         });
         _searchTotalRecords(nomeCliente, _paginacao);
@@ -680,9 +601,9 @@ var ctrCliente = (function () {
         $.ajax({
             async: true,
             cache: false,
-            url: "http://localhost:3412/cliente",
+            url: "/cliente",
             type: "POST",
-            data: JSON.stringify(item),
+            data: item,
             datatype: "JSON",
             success: function (response) {
                 //alert(response.success);
@@ -697,10 +618,11 @@ var ctrCliente = (function () {
         $.ajax({
             async: true,
             cache: false,
-            url: "http://localhost:3412/cliente",
+            url: "/clientes",
             type: "GET",
             data: {
-                Delete: id
+                cmd:"Delete",
+                id: id
             },
             datatype: "JSON",
             success: function (response) {
@@ -718,7 +640,7 @@ var ctrCliente = (function () {
         $.ajax({
             async: true,
             cache: false,
-            url: "http://localhost:3000/clientes",
+            url: "/clientes",
             type: "GET",
             data: {
                 cmd: "Count",
@@ -732,7 +654,7 @@ var ctrCliente = (function () {
                 }
             },
             error: function () {
-                alert('Erro carregar registros!');
+                alert('Erro carregar registros total registros!');
             }
         });
     }
@@ -790,7 +712,9 @@ var ctrCliente = (function () {
                     _pagination.appendChild(li);
                 }
             }
-            _divleft.appendChild(_pagination);
+
+            _divPaging = window.document.getElementById("divPaging");
+            _divPaging.appendChild(_pagination);
         }
 
     }

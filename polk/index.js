@@ -30,13 +30,15 @@ app.get('/cidades', function (req, res) {
                 res.end();
             });
         }
-        if (req.query.cmd === "Count") {
-            cidadeService.select(db, req.query, function (rows) {
-                res.write(JSON.stringify(rows));
-                res.end();
-            });
-        }
     }
+});
+
+app.post('/cidade', function (req, res) {
+    var cidade = req.body;
+
+    cidadeService.save(db, cidade, function (result) {
+        res.end('{"success" : "success", "status" : 200}');
+    });
 });
 
 app.get('/cidade/getById/:id', function (req, res) {
@@ -57,14 +59,6 @@ app.get('/cidade/exclude/:id', function (req, res) {
     });
 });
 
-app.post('/cidades', function (req, res) {
-    var cidade = req.body;
-
-    cidadeService.save(db, cidade, function (result) {
-        res.end('{"success" : "success", "status" : 200}');
-    });
-});
-
 
 app.get('/clientes', function (req, res) {
     if (req.query["cmd"] != null) {
@@ -75,13 +69,30 @@ app.get('/clientes', function (req, res) {
             });
         }
         if (req.query.cmd === "Count") {
-               clienteService.select(db, req.query, function (rows) {
+            clienteService.select(db, req.query, function (rows) {
                 res.write(JSON.stringify(rows));
                 res.end();
             });
         }
+        if (req.query.cmd === "Delete") {
+            clienteService.exclude(db, req.query, function (err) {
+                if (err) {
+                    res.end('{"error" : "error", "status" : 500}');
+                };
+                res.end('{"success" : "success", "status" : 200}');
+            });
+
+        }
     }
 });
+
+app.post('/cliente', function (req, res) {
+    var cliente = req.body;
+    clienteService.save(db, cliente, function (result) {
+        res.end('{"success" : "success", "status" : 200}');
+    });
+});
+
 
 
 app.get('/profissoes', function (req, res) {
@@ -92,7 +103,6 @@ app.get('/profissoes', function (req, res) {
         });
     }
 });
-
 
 app.get('/bairros', function (req, res) {
     if (req.query["cmd"] != null) {

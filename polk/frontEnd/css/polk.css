@@ -22,15 +22,6 @@
     font-size: 15px;
 }
 
-/*.panel-table {
-  overflow-y:scroll; 
-  max-height:420px;
-}*/
-
-.container {
-    margin-top: 10px;
-}
-
 .pagination {
     display: block!important;
 }

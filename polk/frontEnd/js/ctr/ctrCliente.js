@@ -379,6 +379,9 @@ var ctrCliente = (function () {
             cache: false,
             url: "/clientes",
             type: "GET",
+            beforeSend: function (request) {
+                request.setRequestHeader("authorization", "1234");
+            },
             data: {
                 cmd: "Select",
                 NomeCliente: nomeCliente,
@@ -642,6 +645,9 @@ var ctrCliente = (function () {
             cache: false,
             url: "/clientes",
             type: "GET",
+            //beforeSend: function (request) {
+            //    request.setRequestHeader("authorization", "1234");
+            //},
             data: {
                 cmd: "Count",
                 NomeCliente: NomeCliente
@@ -713,7 +719,7 @@ var ctrCliente = (function () {
                 }
             }
 
-            _divPaging = window.document.getElementById("divPaging");
+            var _divPaging = window.document.getElementById("divPaging");
             _divPaging.appendChild(_pagination);
         }
 

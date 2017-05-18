@@ -7,6 +7,8 @@ var router = (function () {
                 break;
             case "cliente": cliente();
                 break;
+            case "cidade": cidade();
+                break;
             default:
                 text = "I have never heard of that fruit...";
         }
@@ -20,13 +22,18 @@ var router = (function () {
     }
 
     function profissao() {
-        $("#editContent").load("Profissao.html", function () {
+        $("#editContent").load("view/Profissao.html", function () {
             ctrProfissao.create();
         });
     }
     function cliente() {
         $("#editContent").load("view/Cliente.html", function () {
             ctrCliente.create();
+        });
+    }
+    function cidade() {
+        $("#editContent").load("view/Cidade.html", function () {
+            ctrCidade.create();
         });
     }
    

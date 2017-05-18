@@ -18,7 +18,7 @@ var profissaoService = (function () {
   
 
     var _save = function (db, profissao, callback) {
-        if (profissao.CodProfissao === 0) {
+        if (profissao.CodProfissao === "0") {
             delete profissao.CodProfissao;
             var query = db.query('INSERT INTO Profissao SET ?', profissao, function (err, result) {
                 if (err) {
@@ -38,8 +38,8 @@ var profissaoService = (function () {
         }
     }
 
-    var _delete = function (db, id, callback) {
-        var query = db.query('DELETE FROM Profissao WHERE CodProfissao = ?', [id], function (err, result) {
+    var _exclude = function (db, filtro, callback) {
+        var query = db.query('DELETE FROM Profissao WHERE CodProfissao = ?', [filtro.id], function (err, result) {
             if (err) {
                 console.log(err);
                 throw err
@@ -51,7 +51,7 @@ var profissaoService = (function () {
     return {
         select: _select,
         save: _save,
-        delete: _delete
+        exclude: _exclude
     }
 })();
 

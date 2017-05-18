@@ -62,8 +62,8 @@ var cidadeService = (function () {
         }
     }
 
-    var _exclude = function (db, id, callback) {
-        var query = db.query('DELETE FROM Cidade WHERE CodCidade = ?', [id], function (err, result) {
+    var _exclude = function (db, filtro, callback) {
+        var query = db.query('DELETE FROM Cidade WHERE CodCidade = ?', [filtro.id], function (err, result) {
             callback(err, result);
         });
     }

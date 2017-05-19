@@ -1,0 +1,4 @@
+https://code.tutsplus.com/tutorials/token-based-authentication-with-angularjs-nodejs--cms-22543
+https://jwt.io/
+http://jwtbuilder.jamiekurtz.com/
+https://github.com/auth0/node-jsonwebtoken

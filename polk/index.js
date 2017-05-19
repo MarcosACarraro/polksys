@@ -90,9 +90,82 @@ app.get('/cidade/exclude/:id', function (req, res) {
 });
 
 
-//app.get('/clientes', ensureAuthorized, function (req, res) {
-     //var jxx = jwt.sign("marcos", "1234");
-    //console.log(jxx);
+
+app.post('/login', function (req, res) {
+    var usuario = req.body;
+
+    var token = jwt.sign(usuario, 'polk', { expiresIn: '2h' });
+    console.log(usuario);
+    res.end('{"success" : "success", "status" : 200}');
+    //var token = jwt.sign({ nome: 'marcos', sobrenome: "carraro" }, 'polk', { expiresIn: '2h' });
+});
+
+app.get('/login', function (req, res) {
+    var usuario = {
+        usuario:req.query.usuario,
+        senha: req.query.senha,
+        //exp: Math.floor(Date.now() / 1000) + (60 * 60)
+        exp: 1500
+    }; 
+
+    var token = jwt.sign(usuario, 'polk');
+    res.write(token);
+    res.end();
+});
+
+
+app.get('/loginVerify', function (req, res) {
+    var token = req.query.token;
+
+     jwt.verify(token, 'polk', function (err, decoded) {
+         if (err) {
+             //err = {
+             //    name: 'TokenExpiredError',
+             //    message: 'jwt expired',
+             //    expiredAt: 1408621000
+             //}
+             res.end('{"error" : "jwt expired", "status" : 500}');
+             //res.write(err);
+             //res.end();
+         }
+         res.end('{"success" : "success", "status" : 200}');
+     });
+});
+
+
+
+
+
+
+//app.get('/token', ensureAuthorized, function (req, res) {
+app.get('/token', function (req, res) {
+    //var token = jwt.sign({ nome: 'marcos', sobrenome: "carraro" }, 'polk', { expiresIn: '2h' });
+    //res.write(token);
+    //res.end();
+
+
+    //var token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwb2xrIiwiaWF0IjoxNDYzNjg0NzUzLCJleHAiOjE0NjM2ODQ3NjksImF1ZCI6Ind3dy5wb2xrc3lzdGVtLmNvbSIsInN1YiI6Impyb2NrZXRAZXhhbXBsZS5jb20iLCJHaXZlbk5hbWUiOiJtYXJjb3MifQ.ktjJ2xtHtrqe7ITl5fr1qhFfdBu6o0oIf1iFMENF3xg";
+    var token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJub21lIjoibWFyY29zIiwic29icmVub21lIjoiY2FycmFybyIsImlhdCI6MTQ5NTIxOTQyOX0.NMiY5QjFTmtoybRBvKpuNquelrBNmpbHJ-fTY1s2LK4";
+
+    jwt.verify(token, 'polk', function (err, decoded) {
+        console.log(decoded) // bar
+        if (err) {
+              err = {
+                name: 'TokenExpiredError',
+                message: 'jwt expired',
+                expiredAt: 1408621000
+              }
+              console.log(err);
+        }
+    });
+
+    
+    res.write("ok");
+    res.end();
+    
+});
+
+
  app.get('/clientes', function (req, res) {
     if (req.query["cmd"] != null) {
         if (req.query.cmd === "Select") {

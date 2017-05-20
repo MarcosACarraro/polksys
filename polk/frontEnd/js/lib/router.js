@@ -9,6 +9,8 @@ var router = (function () {
                 break;
             case "cidade": cidade();
                 break;
+            case "profissional": profissional();
+                break;
             default:
                 text = "I have never heard of that fruit...";
         }
@@ -36,7 +38,12 @@ var router = (function () {
             ctrCidade.create();
         });
     }
-   
+    function profissional() {
+        $("#editContent").load("view/Profissional.html", function () {
+            ctrProfissional.create();
+        });
+    }
+    
 
     return {
         getRoute: _getRoute

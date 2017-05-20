@@ -34,7 +34,11 @@ var clienteService = (function () {
 
         if (cliente.CodCliente === "0") {
             delete cliente.CodCliente;
-            if (cliente.DataNasc) cliente.DataNasc = new Date(cliente.DataNasc);
+            if (cliente.DataNasc) {
+                cliente.DataNasc = new Date(cliente.DataNasc);
+            } else {
+                cliente.DataNasc = null;
+            }
             cliente.CodProfissao = (cliente.CodProfissao > 0) ? cliente.CodProfissao : null;
             cliente.CodCidade = (cliente.CodCidade > 0) ? cliente.CodCidade : null;
             cliente.CodBairro = (cliente.CodBairro > 0) ? cliente.CodBairro : null;

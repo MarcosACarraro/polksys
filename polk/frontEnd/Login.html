@@ -74,7 +74,9 @@
         #divAlertSave {
             margin-top: 20px;
         }
-
+         #divAlertInvalido {
+            margin-top: 20px;
+        }
         .toppolk {
             opacity: 0.4;
         }
@@ -113,9 +115,12 @@
             </div>
 
             <button class="btn btn-lg btn-primary btn-block submit" type="button" onclick="javascript:ctrLogin.logar();">Login</button>
-            <button class="btn btn-lg btn-default btn-block" type="button" onclick="javascript:ctrLogin.testar();">Login</button>
+<!--            <button class="btn btn-lg btn-default btn-block" type="button" onclick="javascript:ctrLogin.testar();">Login</button>-->
             <div id="divAlertSave" class="alert alert-danger">
-                <strong>Sinto Muito!</strong> Não foi possível Logar!! 
+                <strong>Alerta!</strong> campos obrigatórios!! 
+            </div>
+            <div id="divAlertInvalido" class="alert alert-danger">
+                <strong>Alerta!</strong>Login Inválido!
             </div>
         </form>
     </div>

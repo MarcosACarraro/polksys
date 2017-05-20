@@ -38,6 +38,7 @@ var ctrLogin = (function () {
         _toggleValidade.call(this, _txtUsuario, true, "");
 
         $("#divAlertSave").hide();
+        $("#divAlertInvalido").hide();
         _formValid = 0;
     }
 
@@ -62,32 +63,38 @@ var ctrLogin = (function () {
     var _logar = function () {
         _resetValidation.call(this);
         if (_validate.call(this)) {
-            //alert('logou');
-
             var _usuario = {
-                usuario: _txtUsuario.value,
-                senha: _txtSenha.value
+                cmd:"Logar",
+                Login: _txtUsuario.value,
+                Senha: _txtSenha.value
             };
 
-            _logarDB(_usuario);
+            _logarDB(_usuario, function (data) {
+                if (data === "error") {
+                    $("#divAlertInvalido").show();
+                    storageDB.insert("");
+                } else {
+                    storageDB.insert(data);
+                    window.location = "Index.html";
+                }
+            });
 
         } else {
             $("#divAlertSave").show();
         }
     }
 
-    function _logarDB(item) {
+    function _logarDB(item,callback) {
         $.ajax({
             async: true,
             cache: false,
-            url: "/login",
+            url: "/profissionais",
             type: "GET",
             data: item,
             datatype: "JSON",
             success: function (data, success) {
                 if (success = "success") {
-                    //console.log(data);
-                    storageDB.insert(data);
+                    callback(data);
                 }
             },
             error: function () {
@@ -97,7 +104,10 @@ var ctrLogin = (function () {
     }
 
     function _testar() {
-        storageDB.loginVerify();
+        storageDB.loginVerify(function (login) {
+            alert(login);
+            //window.location = "Login.html";
+        });
 
         //var token = storageDB.read();
         //alert(token);

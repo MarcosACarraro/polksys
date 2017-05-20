@@ -1,4 +1,4 @@
-var ctrCliente = (function () {
+var ctrProfissional = (function () {
     var _id = 0;
     var _idEdit = 0;
     var _idExcluir = 0;
@@ -7,12 +7,12 @@ var ctrCliente = (function () {
     var _formValid = 0;
     var _pagination = {};
     var _skip = 0;
-    var _take = 8;
+    var _take = 10;
     var _indexPage = 1;
-
     var _toShow = true;
 
-    var _txtNomeCliente = {};
+    var _txtLogin = {};
+    var _txtNomeProf  = {};
     var _txtEndereco = {};
     var _txtBairro = {};
     var _txtCEP = {};
@@ -29,35 +29,43 @@ var ctrCliente = (function () {
     var _txtObservacao = {};
     var _txtDataCadastro = {};
     var _txtDataNasc = {};
-    var _ddlProfissao = {};
     var _ddlCidade = {};
     var _ddlBairro = {};
 
 
     var _create = function () {
-        //loginVerify();
+
+        loginVerify();
         createFilter();
         createTable();
         createEdit();
 
-        _confirmDeleteCliente = ConfirmDelete();
-        _confirmDeleteCliente.create("divConfirm", "Cliente");
-
+        _confirmDeleteProfissional = ConfirmDelete();
+        _confirmDeleteProfissional.create("divConfirm", "Profissional");
     }
 
+    function loginVerify() {
+        storageDB.loginVerify(function (_login) {
+            if (_login.login === "error") {
+                window.location = "Login.html";
+            } else {
+                $("#mainLogin").text(_login.Nome);
+            }
+        });
+    }
+
+   
     function createFilter() {
         /*filtro vai no Filter body*/
         _txtBusca = window.document.getElementById("txtSearh");
+        _txtBusca.setAttribute("type", "text");
         _txtBusca.setAttribute("class", "search");
         _txtBusca.onkeyup = _onBuscar;
-
     }
-   
 
     function createTable() {
-
-        var _tableContainer = window.document.getElementById("tableContainer");
         /*table vai na div principal*/
+        var _tableContainer = window.document.getElementById("tableContainer");
         _table = window.document.createElement("table");
         _table.setAttribute("class", "table table-striped table-hover table-responsive");
 
@@ -67,7 +75,7 @@ var ctrCliente = (function () {
         var cell2 = row.insertCell(2);
         var cell3 = row.insertCell(3);
         cell0.innerHTML = "codigo";
-        cell1.innerHTML = "Cliente";
+        cell1.innerHTML = "Profissional";
         cell2.innerHTML = "Editar";
         cell3.innerHTML = "Excluir"
         _tableContainer.appendChild(_table);
@@ -81,10 +89,15 @@ var ctrCliente = (function () {
         item.text = "Selecione";
         item.value = 0;
 
-        _txtNomeCliente = window.document.getElementById("txtNomeCliente");
-        _txtNomeCliente.onchange = _txtNomeClienteValidade;
-        _txtNomeCliente.onkeyup = _txtNomeClienteValidade;
-        _txtNomeCliente.setAttribute("maxlength", "50");
+
+        _txtLogin = window.document.getElementById("txtLogin");
+        _txtLogin.onchange = _txtLoginValidade;
+        _txtLogin.onkeyup = _txtLoginValidade;
+
+        _txtNomeProf = window.document.getElementById("txtNomeProfissional");
+        _txtNomeProf .onchange = _txtNomeProfValidade;
+        _txtNomeProf .onkeyup = _txtNomeProfValidade;
+        _txtNomeProf.setAttribute("maxlength", "50");
 
         _txtEndereco = window.document.getElementById("txtEndereco");
         _txtCEP = window.document.getElementById("txtCEP");
@@ -105,7 +118,7 @@ var ctrCliente = (function () {
         _txtDataNasc = window.document.getElementById("txtDataNasc");
         _txtDataNasc.setAttribute("maxlength", "10");
         _txtDataNasc.onchange = _datepickerValidade;
-
+      
         $(_txtDataNasc).daterangepicker({
             singleDatePicker: true,
             singleClasses: "picker_4",
@@ -152,11 +165,7 @@ var ctrCliente = (function () {
             _txtDataNasc.value = _formatDate(start);
             //console.log("New date range selected: " + start.format('YYYY-MM-DD') + " to " + end.format('YYYY-MM-DD') + " (predefined range: " + label + ")");
         });
-
-
-        _ddlProfissao = window.document.getElementById("ddlProfissao");
-        _ddlProfissao.appendChild(item);
-        _loadProfissao();
+      
 
         _ddlCidade = window.document.getElementById("ddlCidade");
         _ddlCidade.onchange = _onchangeddlCidade;
@@ -172,39 +181,9 @@ var ctrCliente = (function () {
         $("#editPainel").collapse('hide');
     }
 
+
     function _onchangeddlCidade() {
         _loadBairro(_ddlCidade.options[_ddlCidade.selectedIndex].value, 0, _ddlBairroSelect);
-    }
-
-    function _loadProfissao() {
-        $.ajax({
-            async: true,
-            cache: false,
-            url: "/profissoes",
-            type: "GET",
-            data: {
-                cmd:"Select",
-                descProfissao:"",
-                skip: 0,
-                take: 1000000
-            },
-            datatype: "JSON",
-            success: function (data, success) {
-                if (success = "success") {
-                    var result = JSON.parse(data);
-
-                    for (var i = 0; i < result.length; i++) {
-                        var item = document.createElement("option");
-                        item.text = result[i].DescProfissao;
-                        item.value = result[i].CodProfissao;
-                        _ddlProfissao.appendChild(item);
-                    }
-                }
-            },
-            error: function () {
-                alert('Erro carregar registros profissoes!');
-            }
-        });
     }
 
     function _loadCidade() {
@@ -214,7 +193,7 @@ var ctrCliente = (function () {
             url: "/cidades",
             type: "GET",
             data: {
-                cmd:"Select",
+                cmd: "Select",
                 NomeCidade: "",
                 skip: 0,
                 take: 1000000
@@ -222,7 +201,7 @@ var ctrCliente = (function () {
             datatype: "JSON",
             success: function (data, success) {
                 if (success = "success") {
-                    var result = JSON.parse(data);
+                    result = JSON.parse(data);
                     for (var i = 0; i < result.length; i++) {
                         var item = document.createElement("option");
                         item.text = result[i].NomeCidade;
@@ -232,19 +211,19 @@ var ctrCliente = (function () {
                 }
             },
             error: function () {
-                alert('Erro carregar registros cidades!');
+                alert('Erro carregar registros!');
             }
         });
     }
 
-    function _loadBairro(idCidade,idBairro,callback) {
+    function _loadBairro(idCidade, idBairro, callback) {
         $.ajax({
             async: true,
             cache: false,
             url: "/bairros",
             type: "GET",
             data: {
-                cmd:"Select",
+                cmd: "Select",
                 CodCidade: idCidade
             },
             datatype: "JSON",
@@ -282,17 +261,26 @@ var ctrCliente = (function () {
 
     var _validate = function () {
         _formValid = 0;
-        _formValid += _txtNomeClienteValidade.call(this);
+        _formValid += _txtNomeProfValidade.call(this);
+        _formValid += _txtLoginValidade.call(this);
         _formValid += _datepickerValidade.call(this);
         _formValid += _txtCPFValidade.call(this);
         return (_formValid == 0);
     }
 
-    var _txtNomeClienteValidade = function () {
-        if (_txtNomeCliente.value.length > 0) {
-            return _toggleValidade.call(this, _txtNomeCliente, true, "");
+    var _txtLoginValidade = function () {
+        if (_txtLogin.value.length > 0) {
+            return _toggleValidade.call(this, _txtLogin, true, "");
         } else {
-            return _toggleValidade.call(this, _txtNomeCliente, false, "Erro Nome Cliente!!!");
+            return _toggleValidade.call(this, _txtLogin, false, "Login obrigatorio!!!");
+        }
+    }
+
+    var _txtNomeProfValidade = function () {
+        if (_txtNomeProf.value.length > 0) {
+            return _toggleValidade.call(this, _txtNomeProf, true, "");
+        } else {
+            return _toggleValidade.call(this, _txtNomeProf, false, "Erro Nome Profissional!!!");
         }
     }
 
@@ -323,8 +311,6 @@ var ctrCliente = (function () {
         }
     }
 
-
-
     function ValidaCPF(strCPF) {
         var Soma;
         var Resto;
@@ -348,7 +334,8 @@ var ctrCliente = (function () {
    
 
     var _resetValidation = function () {
-        _toggleValidade.call(this, _txtNomeCliente, true, "");
+        _toggleValidade.call(this, _txtLogin, true, "");
+        _toggleValidade.call(this, _txtNomeProf, true, "");
         _toggleValidade.call(this, _txtDataNasc, true, "");
         _toggleValidade.call(this, _txtCPF, true, "");
         $("#divAlertSave").hide();
@@ -387,10 +374,10 @@ var ctrCliente = (function () {
             cell3.setAttribute("width", "30px");
             cell3.setAttribute("align", "center");
 
-            cell0.innerHTML = _datasource[i].CodCliente;
+            cell0.innerHTML = _datasource[i].CodProfissional;
             cell1.innerHTML = _datasource[i].Nome;
-            cell2.innerHTML = "<a href='#' onClick='ctrCliente.editAt(" + _datasource[i].CodCliente + ");return false;'><span class='glyphicon glyphicon-edit'></span></a></div>";
-            cell3.innerHTML = "<a href='#' onClick='ctrCliente.confirm(" + _datasource[i].CodCliente + ");return false;'><span class='glyphicon glyphicon-trash'></span></a></div>";
+            cell2.innerHTML = "<a href='#' onClick='ctrProfissional.editAt(" + _datasource[i].CodProfissional + ");return false;'><span class='glyphicon glyphicon-edit'></span></a></div>";
+            cell3.innerHTML = "<a href='#' onClick='ctrProfissional.confirm(" + _datasource[i].CodProfissional + ");return false;'><span class='glyphicon glyphicon-trash'></span></a></div>";
         }
     }
 
@@ -417,18 +404,15 @@ var ctrCliente = (function () {
         }
     }
 
-    function _search(nomeCliente) {
+    function _search(nomeProfissional) {
         $.ajax({
             async: true,
             cache: false,
-            url: "/clientes",
+            url: "/profissionais",
             type: "GET",
-            beforeSend: function (request) {
-                request.setRequestHeader("authorization", "1234");
-            },
             data: {
                 cmd: "Select",
-                NomeCliente: nomeCliente,
+                Nome: nomeProfissional,
                 skip: _skip,
                 take: _take
             },
@@ -440,10 +424,10 @@ var ctrCliente = (function () {
                 }
             },
             error: function () {
-                alert('Erro carregar registros cliente(search)!');
+                alert('Erro carregar registros!');
             }
         });
-        _searchTotalRecords(nomeCliente, _paginacao);
+        _searchTotalRecords(nomeProfissional, _paginacao);
     }
 
     var _limpar = function () {
@@ -455,9 +439,11 @@ var ctrCliente = (function () {
     }
 
     var _editAt = function (id) {
+        _txtLogin.disabled = true;
         for (var i = 0; i < _datasource.length; i++) {
-            if (_datasource[i].CodCliente === id) {
-                _txtNomeCliente.value = _datasource[i].Nome;
+            if (_datasource[i].CodProfissional === id) {
+                _txtLogin.value = _datasource[i].Login;
+                _txtNomeProf.value = _datasource[i].Nome;
                 _txtEndereco.value = _datasource[i].Endereco;
                 _txtCEP.value = _datasource[i].CEP;
 
@@ -484,12 +470,7 @@ var ctrCliente = (function () {
                         _ddlSituacao.selectedIndex = k;
                     }
                 }
-
-                for (m = 0; m < _ddlProfissao.options.length; m++) {
-                    if (_ddlProfissao.options[m].value == _datasource[i].CodProfissao) {
-                        _ddlProfissao.selectedIndex = m;
-                    }
-                }
+           
                 for (n = 0; n < _ddlCidade.options.length; n++) {
                     if (_ddlCidade.options[n].value == _datasource[i].CodCidade) {
                         _ddlCidade.selectedIndex = n;
@@ -506,6 +487,7 @@ var ctrCliente = (function () {
         _resetValidation.call(this);
     }
 
+   
     var _editClose = function () {
         _clearEditFields();
         $("#gridPainel").collapse('show');
@@ -538,24 +520,26 @@ var ctrCliente = (function () {
             var dtDataNasc = _SetDateTime(_txtDataNasc.value);
 
             var _item = {
-                CodCliente: _idEdit,
-                Nome: _txtNomeCliente.value,
+                CodProfissional: _idEdit,
+                Login: _txtLogin.value,
+                Nome: _txtNomeProf.value,
+                Senha:"Senha",
+                CodGrupoAcesso:1,
                 Endereco: _txtEndereco.value,
+                CodCidade: _ddlCidade.options[_ddlCidade.selectedIndex].value,
+                CodBairro: _ddlBairro.options[_ddlBairro.selectedIndex].value,
                 CEP: _txtCEP.value,
+                DataNasc: dtDataNasc,
                 FoneCom: _txtFoneCom.value,
                 FoneRes: _txtFoneRes.value,
                 Celular: _txtCelular.value,
                 Email:_txtEmail.value,
                 RG:_txtRG.value,
-                CPF:_txtCPF.value,
+                CPF: _txtCPF.value,
+                Sexo: _ddlSexo.options[_ddlSexo.selectedIndex].value,
                 EstadoCivil:_txtEstadoCivil.value,
                 Obs:_txtObservacao.value,
-                DataNasc: dtDataNasc,
-                Sexo: _ddlSexo.options[_ddlSexo.selectedIndex].value,
-                Situacao: _ddlSituacao.options[_ddlSituacao.selectedIndex].value,
-                CodProfissao: _ddlProfissao.options[_ddlProfissao.selectedIndex].value,
-                CodCidade: _ddlCidade.options[_ddlCidade.selectedIndex].value,
-                CodBairro: _ddlBairro.options[_ddlBairro.selectedIndex].value
+                Situacao: _ddlSituacao.options[_ddlSituacao.selectedIndex].value
             };
 
             _sabeDB(_item);
@@ -576,11 +560,11 @@ var ctrCliente = (function () {
     var _confirm = function (id) {
         _idExcluir = id;
         for (var i = 0; i < _datasource.length; i++) {
-            if (_datasource[i].CodCliente === id) {
-                _confirmDeleteCliente.setMessage(_datasource[i].Nome);
+            if (_datasource[i].CodProfissional === id) {
+                _confirmDeleteProfissional.setMessage(_datasource[i].Nome);
             }
         }
-        _confirmDeleteCliente.show();
+        _confirmDeleteProfissional.show();
         _resetValidation.call(this);
     }
 
@@ -592,13 +576,14 @@ var ctrCliente = (function () {
         _indexPage = 1;
 
         _search(_txtBusca.value);
-        _confirmDeleteCliente.hide();
+        _confirmDeleteProfissional.hide();
         _resetValidation.call(this);
     }
 
     function _clearEditFields() {
         _idEdit = 0;
-        _txtNomeCliente.value = "";
+        _txtLogin.value = "";
+        _txtNomeProf.value = "";
         _txtEndereco.value = "";
         _txtCEP.value = "";
         _txtFoneCom.value = "";
@@ -613,7 +598,6 @@ var ctrCliente = (function () {
         _txtDataNasc.value = "";
         _ddlSexo.selectedIndex = 0;
         _ddlSituacao.selectedIndex = 0;
-        _ddlProfissao.selectedIndex = 0;
         _ddlCidade.selectedIndex = 0;
         _ddlBairro.selectedIndex = 0;
 
@@ -621,6 +605,7 @@ var ctrCliente = (function () {
 
     var _newItem = function () {
         _clearEditFields();
+        _txtLogin.disabled = false;
         $("#gridPainel").collapse('hide');
         $("#editPainel").collapse('show');
         _resetValidation.call(this);
@@ -630,7 +615,7 @@ var ctrCliente = (function () {
         $.ajax({
             async: true,
             cache: false,
-            url: "/cliente",
+            url: "/profissional",
             type: "POST",
             data: item,
             datatype: "JSON",
@@ -644,18 +629,25 @@ var ctrCliente = (function () {
     }
 
     function _deleteDB(id) {
+        var teste = id;
+
         $.ajax({
             async: true,
             cache: false,
-            url: "/clientes",
+            url: "/profissionais",
             type: "GET",
             data: {
-                cmd:"Delete",
+                cmd: "Delete",
                 id: id
             },
             datatype: "JSON",
-            success: function (response) {
-                //alert(response.success);
+            success: function (data,success) {
+                if (success = "success") {
+                    var result = JSON.parse(data);
+                    if (result.error == "error") {
+                        alert("Nao foi possivel Exluir!!");
+                    }
+                }
             },
             error: function () {
                 alert('Erro ao Deletar!');
@@ -663,20 +655,17 @@ var ctrCliente = (function () {
         });
     }
 
-    function _searchTotalRecords(NomeCliente, callback) {
+    function _searchTotalRecords(NomeProfissional, callback) {
         var _skip = 0;
         var _take = 0;
         $.ajax({
             async: true,
             cache: false,
-            url: "/clientes",
+            url: "profissionais",
             type: "GET",
-            //beforeSend: function (request) {
-            //    request.setRequestHeader("authorization", "1234");
-            //},
             data: {
                 cmd: "Count",
-                NomeCliente: NomeCliente
+                Nome: NomeProfissional
             },
             datatype: "JSON",
             success: function (data, success) {
@@ -686,7 +675,7 @@ var ctrCliente = (function () {
                 }
             },
             error: function () {
-                alert('Erro carregar registros total registros!');
+                alert('Erro carregar registros!');
             }
         });
     }
@@ -723,13 +712,13 @@ var ctrCliente = (function () {
 
             if (_indexPage > limitButtons) {
                 var li = window.document.createElement("li");
-                li.innerHTML = "<a href='#' onClick='ctrCliente.SetPage(" + (_indexPage - 1) + ");return false;'>&laquo;</a>";
+                li.innerHTML = "<a href='#' onClick='ctrProfissional.SetPage(" + (_indexPage - 1) + ");return false;'>&laquo;</a>";
                 _pagination.appendChild(li);
             }
 
             for (i = start; i <= lastButton; i++) {
                 var li = window.document.createElement("li");
-                li.innerHTML = "<a href='#' onClick='ctrCliente.SetPage(" + i + ");return false;'>" + i + "</a>";
+                li.innerHTML = "<a href='#' onClick='ctrProfissional.SetPage(" + i + ");return false;'>" + i + "</a>";
 
                 if (i === _indexPage) {
                     li.setAttribute("class", "active");
@@ -740,7 +729,7 @@ var ctrCliente = (function () {
             if (totalPages > lastButton) {
                 if (_indexPage < totalPages) {
                     var li = window.document.createElement("li");
-                    li.innerHTML = "<a href='#' onClick='ctrCliente.SetPage(" + (_indexPage + 1) + ");return false;'>&raquo;</a>";
+                    li.innerHTML = "<a href='#' onClick='ctrProfissional.SetPage(" + (_indexPage + 1) + ");return false;'>&raquo;</a>";
                     _pagination.appendChild(li);
                 }
             }

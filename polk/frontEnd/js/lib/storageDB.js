@@ -9,7 +9,7 @@ var storageDB = (function () {
         return token;
     }
 
-    function _loginVerify(item) {
+    function _loginVerify(callback) {
         var _item = {
             token:  localStorage.getItem("token")
         };
@@ -24,8 +24,8 @@ var storageDB = (function () {
             success: function (data, success) {
                 if (success = "success") {
                     result = JSON.parse(data);
-                    if (result.error == "jwt expired") {
-                        window.location = "Login.html";
+                    if (result.login) {
+                        callback(result)
                     }
                 } 
             },

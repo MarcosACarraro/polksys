@@ -2,14 +2,20 @@
 
 var express = require('express');
 var bodyParser = require('body-parser');
+var multer = require('multer');
+var fs = require("fs");
 
 var connection = require('./BackEnd/connection');
 var cidadeService = require('./BackEnd/cidadeService');
 var clienteService = require('./BackEnd/clienteService');
 var profissaoService = require('./BackEnd/profissaoService');
 var bairroService = require('./BackEnd/bairroService');
+var profissionalService = require('./BackEnd/profissionalService');
+
 //var morgan = require("morgan");
 var jwt = require("jsonwebtoken");
+
+var upload = multer({ dest: 'uploads/' });
 
 var port = process.env.PORT || 3000;
 
@@ -112,29 +118,6 @@ app.get('/login', function (req, res) {
     res.write(token);
     res.end();
 });
-
-
-app.get('/loginVerify', function (req, res) {
-    var token = req.query.token;
-
-     jwt.verify(token, 'polk', function (err, decoded) {
-         if (err) {
-             //err = {
-             //    name: 'TokenExpiredError',
-             //    message: 'jwt expired',
-             //    expiredAt: 1408621000
-             //}
-             res.end('{"error" : "jwt expired", "status" : 500}');
-             //res.write(err);
-             //res.end();
-         }
-         res.end('{"success" : "success", "status" : 200}');
-     });
-});
-
-
-
-
 
 
 //app.get('/token', ensureAuthorized, function (req, res) {
@@ -264,6 +247,129 @@ app.get('/bairros', function (req, res) {
 process.on('uncaughtException', function (err) {
     console.log(err);
 });
+
+
+
+app.get('/profissionais', function (req, res) {
+    if (req.query["cmd"] != null) {
+        if (req.query.cmd === "Select") {
+            profissionalService.select(db, req.query, function (rows) {
+                res.write(JSON.stringify(rows));
+                res.end();
+            });
+        }
+        if (req.query.cmd === "Count") {
+            profissionalService.select(db, req.query, function (rows) {
+                res.write(JSON.stringify(rows));
+                res.end();
+            });
+        }
+        if (req.query.cmd === "Delete") {
+            profissionalService.exclude(db, req.query, function (err) {
+                if (err) {
+                    res.end('{"error" : "error", "status" : 500}');
+                };
+                res.end('{"success" : "success", "status" : 200}');
+            });
+        }
+        if (req.query.cmd === "Logar") {
+            //console.log(req.query);
+            profissionalService.logar(db, req.query, function (rows) {
+                if (rows.length > 0) {
+                    var usuario = {
+                         CodProfissional: rows[0].CodProfissional,
+                         Nome:  rows[0].Nome,
+                         CodGrupoAcesso:rows[0].CodGrupoAcesso,
+                         exp: Math.floor(Date.now() / 1000) + (60 * 60)
+                    };
+                    var token = jwt.sign(usuario, 'polk');
+                    res.write(token);
+                    res.end();
+                } else {
+                    res.write("error");
+                    res.end();
+                }
+                res.end();
+            });
+        }
+    }
+});
+
+
+
+
+app.get('/loginVerify', function (req, res) {
+    var token = req.query.token;
+
+    jwt.verify(token, 'polk', function (err, decoded) {
+        if (err) {
+            res.end('{"login" : "error", "status" : 500}');
+        }
+       
+        var _login = {
+            login: "success",
+            CodProfissional:decoded.CodProfissional,
+            Nome: decoded.Nome,
+            CodGrupoAcesso: decoded.CodGrupoAcesso,
+            status: 200
+        };
+        //console.log(_login);
+        res.write(JSON.stringify(_login));
+        //res.write(_login);
+        res.end();
+        //res.end('{"login" : "success", "status" : 200}');
+    });
+});
+
+
+app.post('/profissional', function (req, res) {
+    var profissional = req.body;
+    profissionalService.save(db, profissional, function (result) {
+        res.end('{"success" : "success", "status" : 200}');
+    });
+});
+
+app.post("/upload/:id",upload.single('file'),function (req, res) {
+
+    //http://stackoverflow.com/questions/36477145/how-to-upload-image-file-and-display-using-express-nodejs
+
+    var id = req.params.id;
+    //console.log(req.file);
+    //var file = __dirname + '/uploads/' + req.file.filename +".jpg";
+    var file = __dirname + '/uploads/' + id + req.file.originalname;
+    fs.rename(req.file.path, file, function (err) {
+        if (err) {
+            console.log(err);
+            res.sendStatus(500);
+        } else {
+            res.json({
+                message: 'File uploaded successfully',
+                filename: req.file.filename
+            });
+        }
+    });
+
+
+    
+});
+
+//app.post("/upload"), function (req, res) { 
+//});
+
+    //req.form.complete(function(err,fields,files){
+    //    async.series([
+    //       function(cb){
+    //           fs.rename(files.image.path+files.image.name,'./public/image/'+files.image.name,function(err){
+
+    //               connection.query('INSERT INTO RestaurantGalleryImages (Images,RestName) VALUES (?,?)', [fields.name,files.image.path+'/'+files.filename],
+    //                  function(err){
+    //                      cb();
+    //                  });
+    //           });
+    //    );
+    //       });
+    //});
+
 
 var server = app.listen(port);
 console.log('Servidor Express iniciado na porta %s', server.address().port);

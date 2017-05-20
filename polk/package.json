@@ -11,8 +11,9 @@
   "dependencies": {
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
-    "mysql": "^2.13.0",
-	"morgan": "latest",
-	"jsonwebtoken": "0.4.0"
+    "jsonwebtoken": "0.4.0",
+    "morgan": "latest",
+    "multer": "^1.3.0",
+    "mysql": "^2.13.0"
   }
 }

@@ -1,0 +1,186 @@
+﻿<div id="gridPainel" class="panel-collapse collapse in" aria-expanded="true">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span><span>&nbsp;Profissional</span></h3>
+            <span id="iconFilter" onclick="javascript:ctrProfissional.toggleFilter();" class="pull-right clickable">Filtrar &nbsp;<i class="glyphicon glyphicon-filter"></i></span>
+        </div>
+        <div id="divFilterBodyCollapse" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+            <div id="bodyFilter" class="panel-body">
+                <input id="txtSearh" type="text" class="search">
+            </div>
+        </div>
+        <div class="container panel-table" id="tableContainer">
+        </div>
+        <div class="panel-footer">
+            <div id="divPaging"></div>
+            <button class="btn btn-primary pull-right" name="btnNew" onclick="javascript:ctrProfissional.newItem();">Novo</button><div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div id="editPainel" class="panel-collapse collapse" aria-expanded="true">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <span class='glyphicon glyphicon-th-list'></span><span>&nbsp;Profissional</span>
+            </div>
+            <div class="panel-body panel-table">
+                <div id="divLogin">
+                    <label class="control-label" for="txtLogin">Login</label>
+                    <input id="txtLogin" type="text" name="txtLogin" class="form-control" />
+                    <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                    <span id="hbtLogin" class="help-block">Login</span>
+                </div>
+                <div id="divNomeProfissional">
+                    <label class="control-label" for="txtNomeProfissional">Profissional</label>
+                    <input id="txtNomeProfissional" type="text" name="txtNomeProfissional" class="form-control" />
+                    <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                    <span id="hbProfissional" class="help-block">Profissional</span>
+                </div>
+                <div id="divEndereco">
+                    <label class="control-label" for="txtEndereco">Endereço</label>
+                    <input id="txtEndereco" type="text" name="txtEndereco" class="form-control" />
+                    <!-- <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                    <span id="Span1" class="help-block">Endereço</span>-->
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div id="divCidade">
+                            <label class="control-label" for="txtCidade">Cidade</label>
+                            <select id="ddlCidade" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div id="divBairro">
+                            <label class="control-label" for="txtBairro">Bairro</label>
+                            <select id="ddlBairro" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div id="divCEP">
+                            <label class="control-label" for="txtCEP">CEP</label>
+                            <input id="txtCEP" type="text" name="txtCEP" class="form-control" />
+                            <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                            <span id="Span1" class="help-block">Endereço</span>-->
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div id="divDataNasc">
+                            <label class="control-label" for="txtDataNasc">Data Nascimento</label>
+                            <input id="txtDataNasc" type="text" name="txtDataNasc" class="form-control dataIcon" />
+                            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                            <span id="Span1" class="help-block">Data Nascimento</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div id="divFoneCom">
+                            <label class="control-label" for="txtFoneCom">Fone Comercial</label>
+                            <input id="txtFoneCom" type="text" name="txtFoneCom" class="form-control" />
+                            <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                            <span id="Span1" class="help-block">Endereço</span>-->
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div id="divFoneRes">
+                            <label class="control-label" for="txtFoneRes">Fone Residencial</label>
+                            <input id="txtFoneRes" type="text" name="txtFoneRes" class="form-control" />
+                            <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                            <span id="Span1" class="help-block">Endereço</span>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div id="divCelular">
+                            <label class="control-label" for="txtCelular">Celular</label>
+                            <input id="txtCelular" type="text" name="txtCelular" class="form-control" />
+                            <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                            <span id="Span1" class="help-block">Endereço</span>-->
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div id="divEmail">
+                            <label class="control-label" for="txtEmail">Email</label>
+                            <input id="txtEmail" type="text" name="txtEmail" class="form-control" />
+                            <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                            <span id="Span1" class="help-block">Endereço</span>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div id="divRG">
+                            <label class="control-label" for="txtRG">RG</label>
+                            <input id="txtRG" type="text" name="txtRG" class="form-control" />
+                            <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                            <span id="Span1" class="help-block">Endereço</span>-->
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div id="divCPF">
+                            <label class="control-label" for="txtCPF">CPF</label>
+                            <input id="txtCPF" type="text" name="txtCPF" class="form-control" />
+                            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                            <span id="spnCPF" class="help-block">CPF invalido!</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div id="divSexo">
+                            <label class="control-label" for="ddlSexo">Sexo</label>
+                            <select id="ddlSexo" class="form-control">
+                                <option value="F">Feminino</option>
+                                <option value="M">Masculino</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div id="divEstadoCivil">
+                            <label class="control-label" for="txtEstadoCivil">Estado Civil</label>
+                            <input id="txtEstadoCivil" type="text" name="txtEstadoCivil" class="form-control" />
+                            <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                            <span id="Span1" class="help-block">Endereço</span>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div id="divCadastro">
+                            <label class="control-label" for="txtDataCadastro">Data Cadastro</label>
+                            <input id="txtDataCadastro" type="text" name="txtDataCadastro" class="form-control" />
+                            <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                             <span id="Span1" class="help-block">Endereço</span>-->
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div id="divSituacao">
+                            <label class="control-label" for="ddlSituacao">Situação</label>
+                            <select id="ddlSituacao" class="form-control">
+                                <option value="A">Ativo</option>
+                                <option value="I">Inativo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div id="divObservacao">
+                    <label class="control-label" for="txtObservacao">Observacao</label>
+                    <input id="txtObservacao" type="text" name="txtObservacao" class="form-control" />
+                    <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                     <span id="Span1" class="help-block">Endereço</span>-->
+                </div>
+                <div id="divAlertSave" class="alert alert-danger">
+                    <strong>Sinto Muito!</strong> Não foi possível salvar!! 
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button type="button" class="btn btn-default" onclick="javascript:ctrProfissional.editClose();">Fechar</button>
+                <button type="button" class="btn btn-primary" onclick="javascript:ctrProfissional.save();">Salvar</button>
+            </div>
+        </div>
+    </div>
+

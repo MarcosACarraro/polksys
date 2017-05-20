@@ -388,7 +388,8 @@ var ctrCidade = (function () {
             },
             datatype: "JSON",
             success: function (response) {
-                if (response.error) {
+                var result =JSON.parse(response);
+                if (result.error) {
                     alert("Nao pode ser excluido (FK)");
                 }
             },

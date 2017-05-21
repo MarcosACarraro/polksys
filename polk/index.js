@@ -1,5 +1,4 @@
 //code.tutsplus.com/tutorials/token-based-authentication-with-angularjs-nodejs--cms-22543
-
 var express = require('express');
 var bodyParser = require('body-parser');
 var multer = require('multer');
@@ -11,12 +10,11 @@ var clienteService = require('./BackEnd/clienteService');
 var profissaoService = require('./BackEnd/profissaoService');
 var bairroService = require('./BackEnd/bairroService');
 var profissionalService = require('./BackEnd/profissionalService');
+var grupoAcessoService = require('./BackEnd/grupoAcessoService');
 
 //var morgan = require("morgan");
 var jwt = require("jsonwebtoken");
-
 var upload = multer({ dest: 'uploads/' });
-
 var port = process.env.PORT || 3000;
 
 
@@ -64,14 +62,12 @@ app.get('/cidades', function (req, res) {
                 };
                 res.end('{"success" : "success", "status" : 200}');
             });
-
         }
     }
 });
 
 app.post('/cidade', function (req, res) {
     var cidade = req.body;
-
     cidadeService.save(db, cidade, function (result) {
         res.end('{"success" : "success", "status" : 200}');
     });
@@ -170,7 +166,6 @@ app.get('/token', function (req, res) {
                 };
                 res.end('{"success" : "success", "status" : 200}');
             });
-
         }
     }
 });
@@ -220,7 +215,6 @@ app.get('/profissoes', function (req, res) {
                 };
                 res.end('{"success" : "success", "status" : 200}');
             });
-
         }
     }
 });
@@ -233,15 +227,66 @@ app.post('/profissao', function (req, res) {
     });
 });
 
+app.get('/grupoacessos', function (req, res) {
+    if (req.query["cmd"] != null) {
+        if (req.query.cmd === "Select") {
+            grupoAcessoService.select(db, req.query, function (rows) {
+                res.write(JSON.stringify(rows));
+                res.end();
+            });
+        }
+        if (req.query.cmd === "Count") {
+            grupoAcessoService.select(db, req.query, function (rows) {
+                res.write(JSON.stringify(rows));
+                res.end();
+            });
+        }
+        if (req.query.cmd === "Delete") {
+            grupoAcessoService.exclude(db, req.query, function (err) {
+                if (err) {
+                    res.end('{"error" : "error", "status" : 500}');
+                };
+                res.end('{"success" : "success", "status" : 200}');
+            });
+        }
+    }
+});
+
+
+app.post('/grupoacesso', function (req, res) {
+    var grupoacesso = req.body;
+    grupoAcessoService.save(db, grupoacesso, function (result) {
+        res.end('{"success" : "success", "status" : 200}');
+    });
+});
+
 
 app.get('/bairros', function (req, res) {
     if (req.query["cmd"] != null) {
-        bairroService.select(db, req.query, function (rows) {
-            res.write(JSON.stringify(rows));
-            res.end();
-        });
+        if (req.query.cmd === "Select") {
+            bairroService.select(db, req.query, function (rows) {
+                res.write(JSON.stringify(rows));
+                res.end();
+            });
+        }
+        if (req.query.cmd === "Delete") {
+            bairroService.exclude(db, req.query, function (err) {
+                if (err) {
+                    res.end('{"error" : "error", "status" : 500}');
+                };
+                res.end('{"success" : "success", "status" : 200}');
+            });
+        }
     }
 });
+
+app.post('/bairro', function (req, res) {
+    var bairro = req.body;
+    bairroService.save(db, bairro, function (result) {
+        res.end('{"success" : "success", "status" : 200}');
+    });
+});
+
 
 
 process.on('uncaughtException', function (err) {

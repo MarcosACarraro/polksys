@@ -11,7 +11,7 @@ var bairroService = (function () {
     }
 
     var _save = function (db, bairro, callback) {
-        if (bairro.CodBairro === 0) {
+        if (bairro.CodBairro === "0") {
             delete bairro.CodBairro;
             var query = db.query('INSERT INTO Bairro SET ?', bairro, function (err, result) {
                 if (err) {
@@ -31,8 +31,8 @@ var bairroService = (function () {
         }
     }
 
-    var _delete = function (db, id, callback) {
-        var query = db.query('DELETE FROM Bairro WHERE CodBairro = ?', [id], function (err, result) {
+    var _exclude = function (db, filtro, callback) {
+        var query = db.query('DELETE FROM Bairro WHERE CodBairro = ?', [filtro.id], function (err, result) {
             if (err) {
                 console.log(err);
                 throw err
@@ -44,7 +44,7 @@ var bairroService = (function () {
     return {
         select: _select,
         save: _save,
-        delete: _delete,
+        exclude: _exclude,
     }
 })();
 

@@ -35,23 +35,13 @@ var ctrProfissional = (function () {
 
     var _create = function () {
 
-        loginVerify();
+        //loginVerify();
         createFilter();
         createTable();
         createEdit();
 
         _confirmDeleteProfissional = ConfirmDelete();
         _confirmDeleteProfissional.create("divConfirm", "Profissional");
-    }
-
-    function loginVerify() {
-        storageDB.loginVerify(function (_login) {
-            if (_login.login === "error") {
-                window.location = "Login.html";
-            } else {
-                $("#mainLogin").text(_login.Nome);
-            }
-        });
     }
 
    

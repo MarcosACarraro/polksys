@@ -1,6 +1,8 @@
 var router = (function () {
 
     var _getRoute = function (param) {
+        loginVerify();
+
         var route = getParameterByName(param);
         switch (route) {
             case "profissao":profissao();
@@ -11,9 +13,21 @@ var router = (function () {
                 break;
             case "profissional": profissional();
                 break;
+            case "grupoAcesso": grupoAcesso();
+                break;
             default:
-                text = "I have never heard of that fruit...";
+                text = "";
         }
+    }
+
+    function loginVerify() {
+        storageDB.loginVerify(function (_login) {
+            if (_login.login === "error") {
+                window.location = "Login.html";
+            } else {
+                $("#mainLogin").text(_login.Nome);
+            }
+        });
     }
 
     function getParameterByName(name) {
@@ -43,8 +57,11 @@ var router = (function () {
             ctrProfissional.create();
         });
     }
-    
-
+    function grupoAcesso() {
+        $("#editContent").load("view/GrupoAcesso.html", function () {
+            ctrGrupoAcesso.create();
+        });
+    }
     return {
         getRoute: _getRoute
     }

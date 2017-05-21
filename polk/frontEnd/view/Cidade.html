@@ -74,5 +74,52 @@
             </div>
         </div>
     </div>
+<div id="editBairro" class="panel-collapse collapse" aria-expanded="true">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <span class='glyphicon glyphicon-th-list'></span><span>&nbsp;Cadatro Bairro</span>
+            </div>
+            <div class="panel-body">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h1 class="panel-title">
+                            <label id="lblCidade" class="control-label"></label>
+                        </h1>
+                    </div>
+                    <div class="panel-body">
+                        <div id="editCollapseBairro" class="panel-collapse collapse in">
+                            <div id="divTableBairro" class="panel-table"></div>
+                        </div>
 
+                        <div id="editCollapseItemBairro" class="panel-collapse collapse">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <span class='glyphicon glyphicon-th-list'></span><span>&nbsp;Bairro</span>
+                                </div>
+                                <div class="panel-body">
+                                    <div id="div1">
+                                        <label class="control-label" for="txtNomeBairro">Nome Bairro</label>
+                                        <input id="txtNomeBairro" type="text" name="txtNomeBairro" class="form-control" />
+                                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                                        <span id="spanNomeBairro" class="help-block">Nome do Bairro</span>
+                                    </div>
+                                    <div id="divAlertaBairro" class="alert alert-danger">
+                                        <strong>Sinto Muito!</strong> Não foi possível salvar!! 
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                    <button type="button" class="btn btn-default" onclick="javascript:ctrBairro.editClose();">Fechar</button>
+                                    <button type="button" class="btn btn-primary" onclick="javascript:ctrBairro.save();">Salvar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            <div class="panel-footer">
+                <button type="button" class="btn btn-default" onclick="javascript:ctrCidade.editBairroClose();">Fechar</button>
+                <button id="btnNewBairro" type="button" class="btn btn-primary pull-right" onclick="javascript:ctrBairro.NewBairro();">Novo</button>
+            </div>
+        </div>
+    </div>
   

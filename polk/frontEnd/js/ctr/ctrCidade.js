@@ -19,7 +19,7 @@ var ctrCidade = (function () {
         createFilter();
         createTable();
         createEdit();
-        //createEditBairro();
+        createEditBairro();
 
         _confirmDeleteCidade = ConfirmDelete();
         _confirmDeleteCidade.create("divConfirm", "Cidade");
@@ -212,7 +212,7 @@ var ctrCidade = (function () {
 
     function createEditBairro() {
         $("#gridPainel").collapse('show');
-        $("#editPainelBairro").collapse('hide');
+        $("#editBairro").collapse('hide');
     }
 
     var _editBairroAt = function (id) {
@@ -225,12 +225,12 @@ var ctrCidade = (function () {
             }
         }
         $("#gridPainel").collapse('hide');
-        $("#editPainelBairro").collapse('show');
+        $("#editBairro").collapse('show');
     }
 
     var _editBairroClose = function () {
         $("#gridPainel").collapse('show');
-        $("#editPainelBairro").collapse('hide');
+        $("#editBairro").collapse('hide');
     }
     
 

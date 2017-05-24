@@ -43,10 +43,12 @@ var ctrGrupoAcesso = (function () {
         var cell1 = row.insertCell(1);
         var cell2 = row.insertCell(2);
         var cell3 = row.insertCell(3);
+        var cell4 = row.insertCell(4);
         cell0.innerHTML = "codigo";
         cell1.innerHTML = "GrupoAcesso";
-        cell2.innerHTML = "Editar";
-        cell3.innerHTML = "Excluir"
+        cell2.innerHTML = "Direito";
+        cell3.innerHTML = "Editar";
+        cell4.innerHTML = "Excluir";
         _tableContainer.appendChild(_table);
 
         _search("");
@@ -80,11 +82,16 @@ var ctrGrupoAcesso = (function () {
             var cell3 = row.insertCell(3);
             cell3.setAttribute("width", "30px");
             cell3.setAttribute("align", "center");
+            var cell4 = row.insertCell(4);
+            cell4.setAttribute("width", "30px");
+            cell4.setAttribute("align", "center");
+
 
             cell0.innerHTML = _datasource[i].CodGrupoAcesso;
             cell1.innerHTML = _datasource[i].Descricao;
-            cell2.innerHTML = "<a href='#' onClick='ctrGrupoAcesso.editAt(" + _datasource[i].CodGrupoAcesso + ");return false;'><span class='glyphicon glyphicon-edit'></span></a></div>";
-            cell3.innerHTML = "<a href='#' onClick='ctrGrupoAcesso.confirm(" + _datasource[i].CodGrupoAcesso + ");return false;'><span class='glyphicon glyphicon-trash'></span></a></div>";
+            cell2.innerHTML = "<a href='#' onClick='ctrGrupoAcesso.editDireitoAt(" + _datasource[i].CodGrupoAcesso + ");return false;'><span class='glyphicon glyphicon-list-alt'></span></a></div>";
+            cell3.innerHTML = "<a href='#' onClick='ctrGrupoAcesso.editAt(" + _datasource[i].CodGrupoAcesso + ");return false;'><span class='glyphicon glyphicon-edit'></span></a></div>";
+            cell4.innerHTML = "<a href='#' onClick='ctrGrupoAcesso.confirm(" + _datasource[i].CodGrupoAcesso + ");return false;'><span class='glyphicon glyphicon-trash'></span></a></div>";
         }
     }
 
@@ -184,6 +191,30 @@ var ctrGrupoAcesso = (function () {
         $("#editPainel").collapse('show');
         _resetValidation.call(this);
     }
+
+    var _editDireitoAt = function (id) {
+        var _lblGrupoAcesso = window.document.getElementById("lblGrupoAcesso");
+        for (var i = 0; i < _datasource.length; i++) {
+            if (_datasource[i].CodGrupoAcesso === id) {
+                _lblGrupoAcesso.innerHTML = _datasource[i].Descricao;
+                _idEdit = id;
+            }
+        }
+        ctrDireitoAcesso.create(id);
+
+        $("#gridPainel").collapse('hide');
+        $("#editPainel").collapse('hide');
+        $("#editDireito").collapse('show');
+
+    }
+
+    var _editDireitoClose = function (id) {
+        $("#gridPainel").collapse('show');
+        $("#editPainel").collapse('hide');
+        $("#editDireito").collapse('hide');
+    }
+
+    
 
     var _confirm = function (id) {
         _idExcluir = id;
@@ -381,6 +412,8 @@ var ctrGrupoAcesso = (function () {
         newItem: _newItem,
         save: _save,
         editAt: _editAt,
+        editDireitoAt: _editDireitoAt,
+        editDireitoClose:_editDireitoClose,
         confirm: _confirm,
         removeAt: _removeAt,
         SetPage: _SetPage,

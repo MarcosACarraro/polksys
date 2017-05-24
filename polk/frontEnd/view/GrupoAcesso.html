@@ -18,24 +18,58 @@
     </div>
 </div>
 <div id="editPainel" class="panel-collapse collapse" aria-expanded="true">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <span class='glyphicon glyphicon-th-list'></span><span>&nbsp;GrupoAcesso</span>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <span class='glyphicon glyphicon-th-list'></span><span>&nbsp;GrupoAcesso</span>
+        </div>
+        <div class="panel-body">
+            <div id="divGrupoAcesso">
+                <label class="control-label" for="txtDescricao">GrupoAcesso</label>
+                <input id="txtDescricao" type="text" name="txtDescricao" class="form-control" />
+                <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                <span id="hbGrupoAcesso" class="help-block">GrupoAcesso</span>
             </div>
-            <div class="panel-body">
-                <div id="divGrupoAcesso">
-                    <label class="control-label" for="txtDescricao">GrupoAcesso</label>
-                    <input id="txtDescricao" type="text" name="txtDescricao" class="form-control" />
-                    <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-                    <span id="hbGrupoAcesso" class="help-block">GrupoAcesso</span>
-                </div>
-                <div id="divAlertSave" class="alert alert-danger">
-                    <strong>Sinto Muito!</strong> Não foi possível salvar!! 
-                </div>
-            </div>
-            <div class="panel-footer">
-                <button type="button" class="btn btn-default" onclick="javascript:ctrGrupoAcesso.editClose();">Fechar</button>
-                <button type="button" class="btn btn-primary" onclick="javascript:ctrGrupoAcesso.save();">Salvar</button>
+            <div id="divAlertSave" class="alert alert-danger">
+                <strong>Sinto Muito!</strong> Não foi possível salvar!! 
             </div>
         </div>
+        <div class="panel-footer">
+            <button type="button" class="btn btn-default" onclick="javascript:ctrGrupoAcesso.editClose();">Fechar</button>
+            <button type="button" class="btn btn-primary" onclick="javascript:ctrGrupoAcesso.save();">Salvar</button>
+        </div>
+    </div>
+</div>
+
+
+<div id="editDireito" class="panel-collapse collapse" aria-expanded="true">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <span class='glyphicon glyphicon-th-list'></span><span>&nbsp;Direito Acesso</span>
+        </div>
+        <div class="panel-body">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1 class="panel-title">
+                        <label id="lblGrupoAcesso" class="control-label"></label>
+                    </h1>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-11">
+                            <select id="ddlMenus" class="form-control">
+                            </select>
+                        </div>
+                        <div class="col-lg-1">
+                            <button type="button" class="btn btn-default" onclick="javascript:ctrDireitoAcesso.save();">Incluir</button>
+                        </div>
+                    </div>
+                    <div class="container panel-table" id="tableDireitoContainer"></div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <button type="button" class="btn btn-default" onclick="javascript:ctrGrupoAcesso.editDireitoClose();">Fechar</button>
+            <!--<button id="btnNewBairro" type="button" class="btn btn-primary pull-right" onclick="javascript:ctrBairro.NewBairro();">Novo</button>-->
+        </div>
+    </div>
 </div>

@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="vendors/jquery/dist/jquery.min.js"></script>
+    <script>
+      
+
+        function postar() {
+
+            var item = {
+                CodGrupoAcesso: 1,
+                idMenu: "101",
+                
+            };
+
+            $.ajax({
+                async: true,
+                cache: false,
+                url: "direitoAcesso",
+                type: "POST",
+                data: item,
+                datatype: "JSON",
+                success: function (response) {
+                    //alert(response.success);
+                },
+                error: function () {
+                    alert('Erro ao salvar!');
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+    <input type="button" value="postar" onclick="javascript: postar(); return false;"/>
+</body>
+</html>

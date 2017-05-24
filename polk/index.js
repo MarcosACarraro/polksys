@@ -4,13 +4,15 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 var fs = require("fs");
 
-var connection = require('./BackEnd/connection');
-var cidadeService = require('./BackEnd/cidadeService');
-var clienteService = require('./BackEnd/clienteService');
-var profissaoService = require('./BackEnd/profissaoService');
-var bairroService = require('./BackEnd/bairroService');
-var profissionalService = require('./BackEnd/profissionalService');
-var grupoAcessoService = require('./BackEnd/grupoAcessoService');
+var connection = require('./BackEnd/service/connection');
+var cidadeService = require('./BackEnd/service/cidadeService');
+var clienteService = require('./BackEnd/service/clienteService');
+var profissaoService = require('./BackEnd/service/profissaoService');
+var bairroService = require('./BackEnd/service/bairroService');
+var profissionalService = require('./BackEnd/service/profissionalService');
+var grupoAcessoService = require('./BackEnd/service/grupoAcessoService');
+var menuService = require('./BackEnd/service/menuService');
+var direitoAcessoService = require('./BackEnd/service/direitoAcessoService');
 
 //var morgan = require("morgan");
 var jwt = require("jsonwebtoken");
@@ -393,10 +395,58 @@ app.post("/upload/:id",upload.single('file'),function (req, res) {
             });
         }
     });
-
-
-    
 });
+
+
+
+app.get('/menus', function (req, res) {
+    if (req.query["cmd"] != null) {
+        if (req.query.cmd === "Select") {
+            menuService.select(db, req.query, function (rows) {
+                res.write(JSON.stringify(rows));
+                res.end();
+            });
+        }
+    }
+});
+
+//app.get('/menus', function (req, res) {
+//    if (req.query["cmd"] != null) {
+//        if (req.query.cmd === "Select") {
+//            var rows = menuService.select();
+//            res.write(JSON.stringify(rows));
+//            res.end();
+//        }
+//    }
+//});
+
+app.get('/direitosAcesso', function (req, res) {
+    if (req.query["cmd"] != null) {
+        if (req.query.cmd === "Select") {
+            direitoAcessoService.select(db, req.query, function (rows) {
+                res.write(JSON.stringify(rows));
+                res.end();
+            });
+        }
+        if (req.query.cmd === "Delete") {
+            direitoAcessoService.exclude(db, req.query, function (err) {
+                if (err) {
+                    res.end('{"error" : "error", "status" : 500}');
+                };
+                res.end('{"success" : "success", "status" : 200}');
+            });
+        }
+    }
+});
+
+
+app.post('/direitoAcesso', function (req, res) {
+    var direitoAcesso = req.body;
+    direitoAcessoService.save(db, direitoAcesso, function (result) {
+        res.end('{"success" : "success", "status" : 200}');
+    });
+});
+
 
 //app.post("/upload"), function (req, res) { 
 //});

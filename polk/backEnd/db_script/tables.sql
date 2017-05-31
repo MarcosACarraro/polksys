@@ -104,4 +104,21 @@ CREATE TABLE Profissional (
 
 
 
+ CREATE TABLE ContaLancamento (
+  CodContaLancamento INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  Descricao varchar(20) NULL,
+  DataEmissao datetime NULL,
+  DataVencimento datetime NULL,
+  Valor decimal(13,2) NULL,
+  ValorTotal decimal(13,2) NULL
+); 
+
+
+ CREATE TABLE ContaBaixa (
+  CodContaBaixa INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  Descricao varchar(20) NULL,
+  Valor decimal(13,2) NULL,
+  ValorTotal decimal(13,2) NULL
+); 
+
 

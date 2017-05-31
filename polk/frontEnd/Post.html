@@ -11,15 +11,16 @@
         function postar() {
 
             var item = {
-                CodGrupoAcesso: 1,
-                idMenu: "101",
-                
+                CodContaBaixa:"0",
+                Descricao: "Desc",
+                Valor: 11,
+                ValorTotal:22,
             };
 
             $.ajax({
                 async: true,
                 cache: false,
-                url: "direitoAcesso",
+                url: "contaBaixa",
                 type: "POST",
                 data: item,
                 datatype: "JSON",

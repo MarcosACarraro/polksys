@@ -15,6 +15,10 @@ var router = (function () {
                 break;
             case "grupoAcesso": grupoAcesso();
                 break;
+            case "contaLancamento": contaLancamento();
+                break;
+            case "contaBaixa": contaBaixa();
+                break;
             default:
                 text = "";
         }
@@ -62,6 +66,18 @@ var router = (function () {
             ctrGrupoAcesso.create();
         });
     }
+
+    function contaLancamento() {
+        $("#editContent").load("view/ContaLancamento.html", function () {
+            ctrContaLancamento.create();
+        });
+    }
+    function contaBaixa() {
+        $("#editContent").load("view/ContaBaixa.html", function () {
+            ctrContaBaixa.create();
+        });
+    }
+    
     return {
         getRoute: _getRoute
     }

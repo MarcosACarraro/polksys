@@ -1,0 +1,68 @@
+﻿<div id="gridPainel" class="panel-collapse collapse in" aria-expanded="true">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span><span>&nbsp;Conta Lancamento</span></h3>
+            <span id="iconFilter" onclick="javascript:ctrContaLancamento.toggleFilter();" class="pull-right clickable">Filtrar &nbsp;<i class="glyphicon glyphicon-filter"></i></span>
+        </div>
+        <div id="divFilterBodyCollapse" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+            <div id="bodyFilter" class="panel-body">
+                <input id="txtSearh" type="text" class="search">
+            </div>
+        </div>
+        <div class="container panel-table" id="tableContainer">
+        </div>
+        <div class="panel-footer">
+            <div id="divPaging"></div>
+            <button class="btn btn-primary pull-right" name="btnNew" onclick="javascript:ctrContaLancamento.newItem();">Novo</button><div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div id="editPainel" class="panel-collapse collapse" aria-expanded="true">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <span class='glyphicon glyphicon-th-list'></span><span>&nbsp;Conta Lancamento</span>
+            </div>
+            <div class="panel-body">
+                <div id="divNome">
+                    <label class="control-label" for="txtDescricao">Descricao</label>
+                    <input id="txtDescricao" type="text" name="txtDescricao" class="form-control" />
+                    <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                    <span id="hbNomeCidade" class="help-block">Descrica do Lancamento</span>
+                </div>
+                <div class="row">
+                <div class="col-lg-4">
+                        <div id="divDataEmissao">
+                        <label class="control-label" for="txtDataEmissao">Data Emissao</label>
+                        <input id="txtDataEmissao" type="text" name="txtDataEmissao" class="form-control dataIcon" />
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                        <span id="Span2" class="help-block">Data Emissao</span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div id="divDataVencimento">
+                        <label class="control-label" for="txtDataNasc">Data Vencimento</label>
+                        <input id="txtDataVencimento" type="text" name="txtDataVencimento" class="form-control dataIcon" />
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                        <span id="Span1" class="help-block">Data Vencimento</span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div id="divValor">
+                        <label class="control-label" for="txtValor">Valor</label>
+                        <input id="txtValor" type="text" name="txtValor" class="form-control" />
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                        <span id="Span3" class="help-block">Valor</span>
+                    </div>
+                </div>
+            </div>
+                <div id="divAlertSave" class="alert alert-danger">
+                    <strong>Sinto Muito!</strong> Não foi possível salvar!! 
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button type="button" class="btn btn-default" onclick="javascript:ctrContaLancamento.editClose();">Fechar</button>
+                <button type="button" class="btn btn-primary" onclick="javascript:ctrContaLancamento.save();">Salvar</button>
+            </div>
+        </div>
+</div>
+

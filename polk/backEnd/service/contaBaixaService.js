@@ -20,6 +20,13 @@ var contaBaixaService = (function () {
     var _save = function (db, contaBaixa, callback) {
         if (contaBaixa.CodContaBaixa === "0") {
             delete contaBaixa.CodContaBaixa;
+
+            if (contaBaixa.DataPagamento) {
+                contaBaixa.DataPagamento = new Date(contaBaixa.DataPagamento);
+            } else {
+                contaBaixa.DataPagamento = null;
+            }
+
             var query = db.query('INSERT INTO ContaBaixa SET ?', contaBaixa, function (err, result) {
                 if (err) {
                     console.log(err);

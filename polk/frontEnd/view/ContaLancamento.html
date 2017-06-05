@@ -1,4 +1,4 @@
-﻿<div id="gridPainel" class="panel-collapse collapse in" aria-expanded="true">
+﻿<div id="gridPainel" class="panel-collapse collapse" aria-expanded="true">
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span><span>&nbsp;Conta Lancamento</span></h3>
@@ -18,20 +18,20 @@
     </div>
 </div>
 <div id="editPainel" class="panel-collapse collapse" aria-expanded="true">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <span class='glyphicon glyphicon-th-list'></span><span>&nbsp;Conta Lancamento</span>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <span class='glyphicon glyphicon-th-list'></span><span>&nbsp;Conta Lancamento</span>
+        </div>
+        <div class="panel-body">
+            <div id="divNome">
+                <label class="control-label" for="txtDescricao">Descricao</label>
+                <input id="txtDescricao" type="text" name="txtDescricao" class="form-control" />
+                <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                <span id="hbNomeCidade" class="help-block">Descrica do Lancamento</span>
             </div>
-            <div class="panel-body">
-                <div id="divNome">
-                    <label class="control-label" for="txtDescricao">Descricao</label>
-                    <input id="txtDescricao" type="text" name="txtDescricao" class="form-control" />
-                    <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-                    <span id="hbNomeCidade" class="help-block">Descrica do Lancamento</span>
-                </div>
-                <div class="row">
+            <div class="row">
                 <div class="col-lg-4">
-                        <div id="divDataEmissao">
+                    <div id="divDataEmissao">
                         <label class="control-label" for="txtDataEmissao">Data Emissao</label>
                         <input id="txtDataEmissao" type="text" name="txtDataEmissao" class="form-control dataIcon" />
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="col-lg-4">
                     <div id="divDataVencimento">
-                        <label class="control-label" for="txtDataNasc">Data Vencimento</label>
+                        <label class="control-label" for="txtDataVencimento">Data Vencimento</label>
                         <input id="txtDataVencimento" type="text" name="txtDataVencimento" class="form-control dataIcon" />
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                         <span id="Span1" class="help-block">Data Vencimento</span>
@@ -55,14 +55,77 @@
                     </div>
                 </div>
             </div>
-                <div id="divAlertSave" class="alert alert-danger">
-                    <strong>Sinto Muito!</strong> Não foi possível salvar!! 
-                </div>
-            </div>
-            <div class="panel-footer">
-                <button type="button" class="btn btn-default" onclick="javascript:ctrContaLancamento.editClose();">Fechar</button>
-                <button type="button" class="btn btn-primary" onclick="javascript:ctrContaLancamento.save();">Salvar</button>
+            <div id="divAlertSave" class="alert alert-danger">
+                <strong>Sinto Muito!</strong> Não foi possível salvar!! 
             </div>
         </div>
+        <div class="panel-footer">
+            <button type="button" class="btn btn-default" onclick="javascript:ctrContaLancamento.editClose();">Fechar</button>
+            <button type="button" class="btn btn-primary" onclick="javascript:ctrContaLancamento.save();">Salvar</button>
+        </div>
+    </div>
+</div>
+<div id="divContaBaixa" class="panel-collapse collapse" aria-expanded="true">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <span class='glyphicon glyphicon-th-list'></span><span>&nbsp;Conta Baixa</span>
+        </div>
+        <div class="panel-body">
+            <!-- <div class="row">
+                <div class="col-lg-12"><div class="well">fdfddf</div></div>
+            </div>-->
+            <div class="row">
+                <div class="col-lg-3">
+                     <label class="control-label">Documento</label>
+                    <div class="labelConta">
+                        <span id="lblDocumento"></span>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <label class="control-label">Data Emissão</label>
+                    <div class="labelConta">
+                        <span id="lblDataEmissao"></span>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <label class="control-label">Data Vencimento</label>
+                    <div class="labelConta">
+                        <span id="lblVencimento"></span>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <label class="control-label">Valor Pagar</label>
+                    <div class="labelConta">
+                       <span id="lblValorPagar"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div id="divDataPagamento">
+                        <label class="control-label" for="txtDataPagamento">Data Pagamento</label>
+                        <input id="txtDataPagamento" type="text" name="txtDataPagamento" class="form-control dataIcon" />
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                        <span id="Span5" class="help-block">Data Pagamento</span>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div id="divPagamento">
+                        <label class="control-label" for="txtValorPagamento">Valor Pagamento</label>
+                        <input id="txtValorPagamento" type="text" name="txtValorPagamento" class="form-control" />
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                        <span id="Span6" class="help-block">Valor Pagamento</span>
+                    </div>
+                </div>
+            </div>
+            <div id="divContaBaixaAlertSave" class="alert alert-danger">
+                <strong>Sinto Muito!</strong> Não foi possível salvar!! 
+            </div>
+        </div>
+        <div class="panel-footer">
+             <button type="button" class="btn btn-default" onclick="javascript:ctrContaLancamento.baixarClose();">Fechar</button>
+             <button type="button" class="btn btn-primary" onclick="javascript:ctrContaLancamentoBaixa.confirmar();">Salvar</button>
+        </div>
+    </div>
 </div>
 

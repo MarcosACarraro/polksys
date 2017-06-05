@@ -14,7 +14,6 @@ var ctrContaBaixa = (function () {
     var _txtEndereco = {};
 
     var _create = function () {
-
         createFilter();
         createTable();
         createEdit();

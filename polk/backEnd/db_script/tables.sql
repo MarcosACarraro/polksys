@@ -39,7 +39,7 @@ CREATE TABLE Cliente (
 	DataCadastro TIMESTAMP,
 	CodProfissao INT(6) UNSIGNED NULL,
 	Situacao VARCHAR(10) NULL,
-	Obs varchar(250) NULL,
+	Obs VARCHAR(250) NULL,
     FOREIGN KEY (CodCidade) REFERENCES Cidade(CodCidade),
     FOREIGN KEY (CodBairro) REFERENCES Bairro(CodBairro),
     FOREIGN KEY (CodProfissao) REFERENCES Profissao(CodProfissao)
@@ -47,18 +47,18 @@ CREATE TABLE Cliente (
  
  CREATE TABLE GrupoAcesso (
   CodGrupoAcesso int(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  Descricao varchar(20) DEFAULT NULL
+  Descricao VARCHAR(20) DEFAULT NULL
 ); 
 
  CREATE TABLE Menu (
-  idMenu varchar(3)  PRIMARY KEY,
-  Nome varchar(80) DEFAULT NULL
+  idMenu VARCHAR(3)  PRIMARY KEY,
+  Nome VARCHAR(80) DEFAULT NULL
 ); 
 
 
  CREATE TABLE DireitoAcesso (
   CodGrupoAcesso int(6) UNSIGNED NULL,
-  idMenu varchar(3) DEFAULT NULL,
+  idMenu VARCHAR(3) DEFAULT NULL,
   FOREIGN KEY (idMenu) REFERENCES Menu(idMenu),
   FOREIGN KEY (CodGrupoAcesso) REFERENCES GrupoAcesso(CodGrupoAcesso)
 ); 
@@ -66,10 +66,10 @@ CREATE TABLE Cliente (
  
 CREATE TABLE Usuario(
     CodUsuario  int(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	Login varchar(20) NOT NULL,
-	Nome varchar(40) NULL,
-	Senha varchar(15) NULL,
-	Situacao varchar(1) NULL,
+	Login VARCHAR(20) NOT NULL,
+	Nome VARCHAR(40) NULL,
+	Senha VARCHAR(15) NULL,
+	Situacao VARCHAR(1) NULL,
 	CodGrupoAcesso INT(6) UNSIGNED NULL,
     FOREIGN KEY (CodGrupoAcesso) REFERENCES GrupoAcesso(CodGrupoAcesso)
 );
@@ -109,16 +109,19 @@ CREATE TABLE Profissional (
   Descricao varchar(20) NULL,
   DataEmissao datetime NULL,
   DataVencimento datetime NULL,
-  Valor decimal(13,2) NULL,
-  ValorTotal decimal(13,2) NULL
+  Valor decimal(13,2) NULL
 ); 
 
 
  CREATE TABLE ContaBaixa (
   CodContaBaixa INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  CodContaLancamento INT(6) UNSIGNED NULL,
   Descricao varchar(20) NULL,
+  DataPagamento datetime NULL,
   Valor decimal(13,2) NULL,
-  ValorTotal decimal(13,2) NULL
+  ValorTotal decimal(13,2) NULL,
+  Situacao Char(2) NULL,
+  FOREIGN KEY (CodContaLancamento) REFERENCES ContaLancamento(CodContaLancamento)
 ); 
 
 

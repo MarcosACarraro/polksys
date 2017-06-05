@@ -17,14 +17,12 @@ var ctrContaLancamento = (function () {
     var _txtValor = {};
 
     var _create = function () {
-
         createFilter();
         createTable();
         createEdit();
         _confirmContaLancamento = ConfirmDelete();
         _confirmContaLancamento.create("divConfirm", "ContaLancamento");
     }
-
     
     function createEdit() {
 
@@ -139,10 +137,94 @@ var ctrContaLancamento = (function () {
             //console.log("New date range selected: " + start.format('YYYY-MM-DD') + " to " + end.format('YYYY-MM-DD') + " (predefined range: " + label + ")");
         });
 
-
-
         $("#gridPainel").collapse('show');
         $("#editPainel").collapse('hide');
+    }
+
+    function createTable() {
+        /*table vai na div principal*/
+        var _tableContainer = window.document.getElementById("tableContainer");
+        _table = window.document.createElement("table");
+        _table.setAttribute("class", "table table-striped table-hover table-responsive");
+
+        var row = _table.insertRow(0);
+        var cell0 = row.insertCell(0);
+        var cell1 = row.insertCell(1);
+        var cell2 = row.insertCell(2);
+        var cell3 = row.insertCell(3);
+        var cell4 = row.insertCell(4);
+        var cell5 = row.insertCell(5);
+        var cell6 = row.insertCell(6);
+        var cell7 = row.insertCell(7);
+        cell0.innerHTML = "codigo";
+        cell1.innerHTML = "Descricao";
+        cell2.innerHTML = "Emissao";
+        cell3.innerHTML = "Vencimento";
+        cell4.innerHTML = "Valor";
+        cell5.innerHTML = "Baixar";
+        cell6.innerHTML = "Editar";
+        cell7.innerHTML = "Excluir";
+        _tableContainer.appendChild(_table);
+
+        _search("");
+    }
+
+    var _tableDataBind = function () {
+        _limpar.call(this);
+        var linha = 0;
+        for (var i = 0; i < _datasource.length; i++) {
+            linha++;
+            var row = _table.insertRow(linha);
+            var cell0 = row.insertCell(0);
+            cell0.setAttribute("width", "30px");
+
+            var cell1 = row.insertCell(1);
+            var cell2 = row.insertCell(2);
+            var cell3 = row.insertCell(3);
+            var cell4 = row.insertCell(4);
+
+            var cell5 = row.insertCell(5);
+            cell5.setAttribute("width", "30px");
+            cell5.setAttribute("align", "center");
+
+            var cell6 = row.insertCell(6);
+            cell6.setAttribute("width", "30px");
+            cell6.setAttribute("align", "center");
+
+            var cell7 = row.insertCell(7);
+            cell7.setAttribute("width", "30px");
+            cell7.setAttribute("align", "center");
+
+            cell0.innerHTML = _datasource[i].CodContaLancamento;
+            cell1.innerHTML = _datasource[i].Descricao;
+            cell2.innerHTML = _formatDate(_datasource[i].DataEmissao);
+            cell3.innerHTML = _formatDate(_datasource[i].DataVencimento);
+            cell4.innerHTML = _datasource[i].Valor;
+            cell5.innerHTML = "<a href='#' onClick='ctrContaLancamento.baixarEdit(" + _datasource[i].CodContaLancamento + ");return false;'><span class='glyphicon glyphicon-edit'></span></a></div>";
+            cell6.innerHTML = "<a href='#' onClick='ctrContaLancamento.editAt(" + _datasource[i].CodContaLancamento + ");return false;'><span class='glyphicon glyphicon-edit'></span></a></div>";
+            cell7.innerHTML = "<a href='#' onClick='ctrContaLancamento.confirm(" + _datasource[i].CodContaLancamento + ");return false;'><span class='glyphicon glyphicon-trash'></span></a></div>";
+        }
+    }
+
+    var _baixarEdit = function (id) {
+
+        for (var i = 0; i < _datasource.length; i++) {
+            if (_datasource[i].CodContaLancamento == id) {
+                $("#lblDocumento").text(_datasource[i].Descricao);
+                $("#lblDataEmissao").text(_formatDate(_datasource[i].DataEmissao));
+                $("#lblVencimento").text(_formatDate(_datasource[i].DataVencimento));
+                $("#lblValorPagar").text(_datasource[i].Valor);
+            }
+        }
+
+        ctrContaLancamentoBaixa.create(id);
+        $("#gridPainel").collapse('hide');
+        $("#divContaBaixa").collapse('show');
+    }
+
+    var _baixarClose = function () {
+        $("#gridPainel").collapse('show');
+        $("#divContaBaixa").collapse('hide');
     }
 
     var _txtDataEmissaoValidade = function () {
@@ -272,8 +354,7 @@ var ctrContaLancamento = (function () {
                 Descricao: _txtDescricao.value,
                 DataEmissao: dtDataEmissao,
                 DataVencimento: dtDataVencimento,
-                Valor: _txtValor.value,
-                ValorTotal: 22
+                Valor: _txtValor.value
             };
 
             _sabeDB(_item);
@@ -377,64 +458,6 @@ var ctrContaLancamento = (function () {
         _txtBusca.setAttribute("type", "text");
         _txtBusca.setAttribute("class", "search");
         _txtBusca.onkeyup = _onBuscar;
-    }
-
-    function createTable() {
-        /*table vai na div principal*/
-        var _tableContainer = window.document.getElementById("tableContainer");
-        _table = window.document.createElement("table");
-        _table.setAttribute("class", "table table-striped table-hover table-responsive");
-
-        var row = _table.insertRow(0);
-        var cell0 = row.insertCell(0);
-        var cell1 = row.insertCell(1);
-        var cell2 = row.insertCell(2);
-        var cell3 = row.insertCell(3);
-        var cell4 = row.insertCell(4);
-        var cell5 = row.insertCell(5);
-        var cell6 = row.insertCell(6);
-        cell0.innerHTML = "codigo";
-        cell1.innerHTML = "Descricao";
-        cell2.innerHTML = "Emissao";
-        cell3.innerHTML = "Vencimento";
-        cell4.innerHTML = "Valor";
-        cell5.innerHTML = "Editar";
-        cell6.innerHTML = "Excluir";
-        _tableContainer.appendChild(_table);
-
-        _search("");
-    }
-
-    var _tableDataBind = function () {
-        _limpar.call(this);
-        var linha = 0;
-        for (var i = 0; i < _datasource.length; i++) {
-            linha++;
-            var row = _table.insertRow(linha);
-            var cell0 = row.insertCell(0);
-            cell0.setAttribute("width", "30px");
-
-            var cell1 = row.insertCell(1);
-            var cell2 = row.insertCell(2);
-            var cell3 = row.insertCell(3);
-            var cell4 = row.insertCell(4);
-
-            var cell5 = row.insertCell(5);
-            cell5.setAttribute("width", "30px");
-            cell5.setAttribute("align", "center");
-
-            var cell6 = row.insertCell(6);
-            cell6.setAttribute("width", "30px");
-            cell6.setAttribute("align", "center");
-
-            cell0.innerHTML = _datasource[i].CodContaLancamento;
-            cell1.innerHTML = _datasource[i].Descricao;
-            cell2.innerHTML = _formatDate(_datasource[i].DataEmissao);
-            cell3.innerHTML = _formatDate(_datasource[i].DataVencimento);
-            cell4.innerHTML = _datasource[i].Valor;
-            cell5.innerHTML = "<a href='#' onClick='ctrContaLancamento.editAt(" + _datasource[i].CodContaLancamento + ");return false;'><span class='glyphicon glyphicon-edit'></span></a></div>";
-            cell6.innerHTML = "<a href='#' onClick='ctrContaLancamento.confirm(" + _datasource[i].CodContaLancamento + ");return false;'><span class='glyphicon glyphicon-trash'></span></a></div>";
-        }
     }
 
     var _limpar = function () {
@@ -583,11 +606,14 @@ var ctrContaLancamento = (function () {
         create: _create,
         toggleFilter: _toggleFilter,
         editAt: _editAt,
+        baixarEdit: _baixarEdit,
+        baixarClose: _baixarClose,
         editClose: _editClose,
         save: _save,
         confirm: _confirm,
         removeAt: _removeAt,
         newItem: _newItem,
-        SetPage: _SetPage
+        SetPage: _SetPage,
+        search:_search
     }
 })();

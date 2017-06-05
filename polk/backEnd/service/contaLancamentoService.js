@@ -3,9 +3,22 @@ var contaLancamentoService = (function () {
     var _select = function (db, filtro, callback) {
         var queryString = "";
         if (filtro.cmd == "Count") {
-            queryString = 'SELECT COUNT(*) AS Total FROM ContaLancamento WHERE Descricao LIKE ?';
+            queryString = " SELECT COUNT(*) AS Total " +
+                          " FROM ContaLancamento " +
+                          " LEFT JOIN ContaBaixa ON ContaLancamento.CodContaLancamento = ContaBaixa.CodContaLancamento " +
+                          " WHERE ContaBaixa.Situacao is NULL "
+                          " AND ContaLancamento.Descricao LIKE ?";
         } else {
-            queryString = "SELECT * FROM ContaLancamento WHERE Descricao LIKE ? limit " + filtro.skip + "," + filtro.take;
+
+            queryString = " SELECT ContaLancamento.CodContaLancamento, " +
+                          " ContaLancamento.Descricao,  "+
+                          " ContaLancamento.DataEmissao,  "+
+                          " ContaLancamento.DataVencimento, "+
+                          " ContaLancamento.Valor " +
+                          " FROM ContaLancamento " +
+                          " LEFT JOIN ContaBaixa ON ContaLancamento.CodContaLancamento = ContaBaixa.CodContaLancamento " +
+                          " WHERE ContaBaixa.Situacao is NULL "
+                          " AND ContaLancamento.Descricao LIKE ? limit " + filtro.skip + "," + filtro.take;
         }
         var list = db.query(queryString, '%' + filtro.Descricao + '%', function (err, rows, fields) {
             if (err) {

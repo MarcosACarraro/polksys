@@ -109,9 +109,9 @@ CREATE TABLE Profissional (
   Descricao varchar(20) NULL,
   DataEmissao datetime NULL,
   DataVencimento datetime NULL,
-  Valor decimal(13,2) NULL
+  Valor decimal(13,2) NULL,
+  Lancamento  Char(1) NULL
 ); 
-
 
  CREATE TABLE ContaBaixa (
   CodContaBaixa INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -119,8 +119,12 @@ CREATE TABLE Profissional (
   Descricao varchar(20) NULL,
   DataPagamento datetime NULL,
   Valor decimal(13,2) NULL,
+  Desconto decimal(13,2) NULL,
+  Juros decimal(13,2) NULL,
+  Multa decimal(13,2) NULL,
   ValorTotal decimal(13,2) NULL,
-  Situacao Char(2) NULL,
+  Situacao Char(1) NULL,
+  Lancamento  Char(1) NULL,
   FOREIGN KEY (CodContaLancamento) REFERENCES ContaLancamento(CodContaLancamento)
 ); 
 

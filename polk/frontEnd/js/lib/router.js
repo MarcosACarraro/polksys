@@ -15,9 +15,13 @@ var router = (function () {
                 break;
             case "grupoAcesso": grupoAcesso();
                 break;
-            case "contaLancamento": contaLancamento();
+            case "contaPagar": contaPagar();
+                break;
+            case "contaReceber": contaReceber();
                 break;
             case "contaBaixa": contaBaixa();
+                break;
+            case "extrato": extrato();
                 break;
             default:
                 text = "";
@@ -67,14 +71,24 @@ var router = (function () {
         });
     }
 
-    function contaLancamento() {
-        $("#editContent").load("view/ContaLancamento.html", function () {
-            ctrContaLancamento.create();
+    function contaPagar() {
+        $("#editContent").load("view/ContaPagar.html", function () {
+            ctrContaPagar.create();
+        });
+    }
+    function contaReceber() {
+        $("#editContent").load("view/ContaReceber.html", function () {
+            ctrContaReceber.create();
         });
     }
     function contaBaixa() {
         $("#editContent").load("view/ContaBaixa.html", function () {
             ctrContaBaixa.create();
+        });
+    }
+    function extrato() {
+        $("#editContent").load("view/Extrato.html", function () {
+            ctrExtrato.create();
         });
     }
     

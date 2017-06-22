@@ -1,8 +1,8 @@
 ﻿<div id="gridPainel" class="panel-collapse collapse" aria-expanded="true">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span><span>&nbsp;Conta Lancamento</span></h3>
-            <span id="iconFilter" onclick="javascript:ctrContaLancamento.toggleFilter();" class="pull-right clickable">Filtrar &nbsp;<i class="glyphicon glyphicon-filter"></i></span>
+            <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span><span>&nbsp;Contas a Pagar</span></h3>
+            <span id="iconFilter" onclick="javascript:ctrContaPagar.toggleFilter();" class="pull-right clickable">Filtrar &nbsp;<i class="glyphicon glyphicon-filter"></i></span>
         </div>
         <div id="divFilterBodyCollapse" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
             <div id="bodyFilter" class="panel-body">
@@ -13,14 +13,14 @@
         </div>
         <div class="panel-footer">
             <div id="divPaging"></div>
-            <button class="btn btn-primary pull-right" name="btnNew" onclick="javascript:ctrContaLancamento.newItem();">Novo</button><div class="clearfix"></div>
+            <button class="btn btn-primary pull-right" name="btnNew" onclick="javascript:ctrContaPagar.newItem();">Novo</button><div class="clearfix"></div>
         </div>
     </div>
 </div>
 <div id="editPainel" class="panel-collapse collapse" aria-expanded="true">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <span class='glyphicon glyphicon-th-list'></span><span>&nbsp;Conta Lancamento</span>
+            <span class='glyphicon glyphicon-th-list'></span><span>&nbsp;Conta a Pagar</span>
         </div>
         <div class="panel-body">
             <div id="divNome">
@@ -60,8 +60,8 @@
             </div>
         </div>
         <div class="panel-footer">
-            <button type="button" class="btn btn-default" onclick="javascript:ctrContaLancamento.editClose();">Fechar</button>
-            <button type="button" class="btn btn-primary" onclick="javascript:ctrContaLancamento.save();">Salvar</button>
+            <button type="button" class="btn btn-default" onclick="javascript:ctrContaPagar.editClose();">Fechar</button>
+            <button type="button" class="btn btn-primary" onclick="javascript:ctrContaPagar.save();">Salvar</button>
         </div>
     </div>
 </div>
@@ -71,9 +71,6 @@
             <span class='glyphicon glyphicon-th-list'></span><span>&nbsp;Conta Baixa</span>
         </div>
         <div class="panel-body">
-            <!-- <div class="row">
-                <div class="col-lg-12"><div class="well">fdfddf</div></div>
-            </div>-->
             <div class="row">
                 <div class="col-lg-3">
                      <label class="control-label">Documento</label>
@@ -101,7 +98,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-3">
                     <div id="divDataPagamento">
                         <label class="control-label" for="txtDataPagamento">Data Pagamento</label>
                         <input id="txtDataPagamento" type="text" name="txtDataPagamento" class="form-control dataIcon" />
@@ -109,12 +106,45 @@
                         <span id="Span5" class="help-block">Data Pagamento</span>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-3">
                     <div id="divPagamento">
-                        <label class="control-label" for="txtValorPagamento">Valor Pagamento</label>
-                        <input id="txtValorPagamento" type="text" name="txtValorPagamento" class="form-control" />
+                        <label class="control-label" for="txtDesconto">Desconto</label>
+                        <input id="txtDesconto" type="text" name="txtDesconto" class="form-control" />
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-                        <span id="Span6" class="help-block">Valor Pagamento</span>
+                        <span id="Span6" class="help-block">Desconto</span>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div id="div1">
+                        <label class="control-label" for="txtJuros">Juros</label>
+                        <input id="txtJuros" type="text" name="txtJuros" class="form-control" />
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                        <span id="Span4" class="help-block">Juros</span>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div id="div2">
+                        <label class="control-label" for="txtMulta">Multa</label>
+                        <input id="txtMulta" type="text" name="txtMulta" class="form-control" />
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                        <span id="Span7" class="help-block">Multa</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3">
+                     
+                </div>
+                <div class="col-lg-3">
+                   
+                </div>
+                <div class="col-lg-3">
+                   
+                </div>
+                <div class="col-lg-3">
+                    <label class="control-label">Valor Total Pagar</label>
+                    <div class="labelConta">
+                       <span id="lblValorTotalPagar"></span>
                     </div>
                 </div>
             </div>
@@ -123,8 +153,8 @@
             </div>
         </div>
         <div class="panel-footer">
-             <button type="button" class="btn btn-default" onclick="javascript:ctrContaLancamento.baixarClose();">Fechar</button>
-             <button type="button" class="btn btn-primary" onclick="javascript:ctrContaLancamentoBaixa.confirmar();">Salvar</button>
+             <button type="button" class="btn btn-default" onclick="javascript:ctrContaPagar.baixarClose();">Fechar</button>
+             <button type="button" class="btn btn-primary" onclick="javascript:ctrContaPagarBaixa.confirmar();">Salvar</button>
         </div>
     </div>
 </div>

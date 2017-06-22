@@ -24,3 +24,13 @@ SELECT ContaLancamento.CodContaLancamento,
 FROM ContaLancamento 
 LEFT JOIN ContaBaixa ON ContaLancamento.CodContaLancamento = ContaBaixa.CodContaLancamento
 WHERE ContaBaixa.Situacao is NULL
+
+
+select * from ContaBaixa
+WHERE (DataPagamento BETWEEN '2017-01-01 14:15:55' AND '2017-01-08 10:15:55')
+
+select * from ContaBaixa
+WHERE (DataPagamento < '2017-01-01 14:15:55')
+
+
+select sum(valor) from  ContaBaixa

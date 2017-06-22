@@ -6,7 +6,8 @@ var contaLancamentoService = (function () {
             queryString = " SELECT COUNT(*) AS Total " +
                           " FROM ContaLancamento " +
                           " LEFT JOIN ContaBaixa ON ContaLancamento.CodContaLancamento = ContaBaixa.CodContaLancamento " +
-                          " WHERE ContaBaixa.Situacao is NULL "
+                          " WHERE ContaLancamento.Lancamento = ? "+
+                          " AND ContaBaixa.Situacao is NULL " +
                           " AND ContaLancamento.Descricao LIKE ?";
         } else {
 
@@ -17,10 +18,11 @@ var contaLancamentoService = (function () {
                           " ContaLancamento.Valor " +
                           " FROM ContaLancamento " +
                           " LEFT JOIN ContaBaixa ON ContaLancamento.CodContaLancamento = ContaBaixa.CodContaLancamento " +
-                          " WHERE ContaBaixa.Situacao is NULL "
+                          " WHERE ContaLancamento.Lancamento = ? "+
+                          " AND ContaBaixa.Situacao is NULL " +
                           " AND ContaLancamento.Descricao LIKE ? limit " + filtro.skip + "," + filtro.take;
         }
-        var list = db.query(queryString, '%' + filtro.Descricao + '%', function (err, rows, fields) {
+        var list = db.query(queryString, [filtro.Lancamento,'%' + filtro.Descricao + '%'], function (err, rows, fields) {
             if (err) {
                 console.log(err);
                 throw err

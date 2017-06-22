@@ -34,6 +34,19 @@ var ctrContaLancamento = (function () {
         _txtValor.onchange = _txtValorValidade;
         _txtValor.onkeyup = _txtValorValidade;
 
+        $(_txtValor).inputmask('decimal', {
+            'alias': 'numeric',
+            'groupSeparator': '.',
+            'autoGroup': true,
+            'digits': 2,
+            'radixPoint': ",",
+            'digitsOptional': false,
+            'allowMinus': false,
+            'prefix': 'R$ ',
+            'placeholder': '',
+            'autoUnmask': true
+        });
+
         _txtDataEmissao = window.document.getElementById("txtDataEmissao");
         _txtDataEmissao.setAttribute("maxlength", "10");
         _txtDataEmissao.onchange = _txtDataEmissaoValidade;
@@ -199,25 +212,50 @@ var ctrContaLancamento = (function () {
             cell1.innerHTML = _datasource[i].Descricao;
             cell2.innerHTML = _formatDate(_datasource[i].DataEmissao);
             cell3.innerHTML = _formatDate(_datasource[i].DataVencimento);
-            cell4.innerHTML = _datasource[i].Valor;
+            cell4.innerHTML = FormatRS(_datasource[i].Valor);
             cell5.innerHTML = "<a href='#' onClick='ctrContaLancamento.baixarEdit(" + _datasource[i].CodContaLancamento + ");return false;'><span class='glyphicon glyphicon-edit'></span></a></div>";
             cell6.innerHTML = "<a href='#' onClick='ctrContaLancamento.editAt(" + _datasource[i].CodContaLancamento + ");return false;'><span class='glyphicon glyphicon-edit'></span></a></div>";
             cell7.innerHTML = "<a href='#' onClick='ctrContaLancamento.confirm(" + _datasource[i].CodContaLancamento + ");return false;'><span class='glyphicon glyphicon-trash'></span></a></div>";
         }
     }
 
+    
+    function FormatRS(value) {
+        var strNumber = value.toString();
+        strNumber = strNumber.replace(/[^0-9\.,]/g, "");
+        if (strNumber == "") strNumber = "0";
+        strNumber = strNumber.replace(',', '.')
+        v = parseFloat(strNumber);
+
+        v = v.toFixed(2) + '';
+        x = v.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+
+        return "R$ " +x1.replace(',', '.') + x2.replace('.', ',');
+    }
+
+
     var _baixarEdit = function (id) {
+
+        var valor = 0;
 
         for (var i = 0; i < _datasource.length; i++) {
             if (_datasource[i].CodContaLancamento == id) {
                 $("#lblDocumento").text(_datasource[i].Descricao);
                 $("#lblDataEmissao").text(_formatDate(_datasource[i].DataEmissao));
                 $("#lblVencimento").text(_formatDate(_datasource[i].DataVencimento));
-                $("#lblValorPagar").text(_datasource[i].Valor);
+                $("#lblValorPagar").text(FormatRS(_datasource[i].Valor));
+                $("#lblValorTotalPagar").text(FormatRS(_datasource[i].Valor));
+                valor = _datasource[i].Valor
             }
         }
 
-        ctrContaLancamentoBaixa.create(id);
+        ctrContaLancamentoBaixa.create(id,valor);
         $("#gridPainel").collapse('hide');
         $("#divContaBaixa").collapse('show');
     }
@@ -348,13 +386,14 @@ var ctrContaLancamento = (function () {
        
             var dtDataEmissao = _SetDateTime(_txtDataEmissao.value);
             var dtDataVencimento = _SetDateTime(_txtDataVencimento.value);
+            var valor = parseFloat(_txtValor.value.replace(",", "."));
 
             var _item = {
                 CodContaLancamento: _idEdit,
                 Descricao: _txtDescricao.value,
                 DataEmissao: dtDataEmissao,
                 DataVencimento: dtDataVencimento,
-                Valor: _txtValor.value
+                Valor: valor
             };
 
             _sabeDB(_item);

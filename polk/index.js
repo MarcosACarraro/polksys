@@ -302,17 +302,17 @@ app.get('/loginVerify', function (req, res) {
     jwt.verify(token, 'polk', function (err, decoded) {
         if (err) {
             res.end('{"login" : "error", "status" : 500}');
+        } else {
+            var _login = {
+                login: "success",
+                CodProfissional: decoded.CodProfissional,
+                Nome: decoded.Nome,
+                CodGrupoAcesso: decoded.CodGrupoAcesso,
+                status: 200
+            }
+            res.write(JSON.stringify(_login));
+            res.end();
         }
-       
-        var _login = {
-            login: "success",
-            CodProfissional:decoded.CodProfissional,
-            Nome: decoded.Nome,
-            CodGrupoAcesso: decoded.CodGrupoAcesso,
-            status: 200
-        };
-        res.write(JSON.stringify(_login));
-        res.end();
     });
 });
 

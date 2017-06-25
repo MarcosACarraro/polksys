@@ -156,7 +156,7 @@ var ctrCidade = (function () {
 
             _pagination = window.document.createElement("ul");
             _pagination.setAttribute("id", "ulPaginacao")
-            _pagination.setAttribute("class", "pagination");
+            _pagination.setAttribute("class", "pagination pagbottom");
 
             if (_indexPage > limitButtons) {
                 var li = window.document.createElement("li");

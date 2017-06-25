@@ -14,7 +14,7 @@ var menuService = require('./BackEnd/service/menuService');
 var direitoAcessoService = require('./BackEnd/service/direitoAcessoService');
 var contaLancamentoService = require('./BackEnd/service/contaLancamentoService');
 var contaBaixaService = require('./BackEnd/service/contaBaixaService');
-
+var contaExtratoService = require('./BackEnd/service/contaExtratoService');
 
 //var morgan = require("morgan");
 var jwt = require("jsonwebtoken");
@@ -413,7 +413,39 @@ app.post('/contaBaixa', function (req, res) {
     });
 });
 
+app.get('/contaExtrato', function (req, res) {
+    if (req.query["cmd"] != null) {
+        if (req.query.cmd === "Select") {
+            contaExtratoService.extrato(db, req.query, function (rows) {
+                res.write(JSON.stringify(rows));
+                res.end();
+            });
+        }
+    }
+});
 
+app.get('/contaSaldos', function (req, res) {
+    if (req.query["cmd"] != null) {
+        if (req.query.cmd === "Select") {
+            contaExtratoService.saldos(db, req.query, function (rows) {
+                res.write(JSON.stringify(rows));
+                res.end();
+            });
+        }
+    }
+});
+
+
+app.get('/periodos', function (req, res) {
+    if (req.query["cmd"] != null) {
+        if (req.query.cmd === "Select") {
+            contaExtratoService.periodos(db, req.query, function (rows) {
+                res.write(JSON.stringify(rows));
+                res.end();
+            });
+        }
+    }
+});
 
 var server = app.listen(port);
 console.log('Servidor Express iniciado na porta %s', server.address().port);

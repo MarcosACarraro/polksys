@@ -33,9 +33,43 @@
             });
         }
 
+        function _SetDateTime(strDateTime) {
+            var dateTime = null;
+            if (strDateTime.length > 0) {
+                dateTime = new Date(parseInt(strDateTime.substring(6, 10)), parseInt(strDateTime.substring(3, 5)) - 1, parseInt(strDateTime.substring(0, 2)));
+            }
+            return dateTime;
+        }
+
+        function get() {
+            
+            var dtConsulta = _SetDateTime("08/01/2017");
+            
+            $.ajax({
+                async: true,
+                cache: false,
+                url: "contaSaldos",
+                type: "GET",
+                data: {
+                    cmd: "Select",
+                    dataConsulta: dtConsulta
+                },
+                datatype: "JSON",
+                success: function (data, success) {
+                    if (success = "success") {
+                       
+                    }
+                },
+                error: function () {
+                    alert('Erro carregar registros!');
+                }
+            });
+        }
+
     </script>
 </head>
 <body>
     <input type="button" value="postar" onclick="javascript: postar(); return false;"/>
+    <input type="button" value="listar" onclick="javascript: get(); return false;"/>
 </body>
 </html>

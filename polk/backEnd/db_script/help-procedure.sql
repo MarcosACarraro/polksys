@@ -8,10 +8,14 @@ CREATE TEMPORARY TABLE IF NOT EXISTS TContaBaixa AS (SELECT * FROM ContaBaixa)
 use bd_Sistema;
 
 
+call ContaListaPeriodos();
+
+call ContaSaldos('2017-01-31');
 call ContaExtrato('2017-01-08');
-call ContaExtratoCompleto('2017-01-01');
+call ContaExtrato('2017-01-08');
 
 drop procedure ContaExtrato
+drop procedure ContaListaPeriodos
 
 
 DELIMITER $$

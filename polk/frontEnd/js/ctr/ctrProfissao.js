@@ -303,7 +303,7 @@ var ctrProfissao = (function () {
           
             _pagination = window.document.createElement("ul");
             _pagination.setAttribute("id","ulProfissao")
-            _pagination.setAttribute("class", "pagination");
+            _pagination.setAttribute("class", "pagination pagbottom");
 
             if (_indexPage > limitButtons) {
                 var li = window.document.createElement("li");

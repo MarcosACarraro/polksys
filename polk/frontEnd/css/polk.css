@@ -21,9 +21,10 @@
     font-size: 15px;
 }
 
-.pagination {
+.pagbottom {
     display: block!important;
 }
+
 .panel-default > .panel-heading {
     color: #73879C;
 }

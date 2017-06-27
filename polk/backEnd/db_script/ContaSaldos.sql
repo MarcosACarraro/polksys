@@ -1,5 +1,5 @@
 DELIMITER $$
-create procedure ContaSaldos(IN dtConsulta date)
+create procedure ContaSaldos(IN intCodConta INT(6),IN dtConsulta date)
 BEGIN
  
      DECLARE dtDataAnterior date;
@@ -13,22 +13,26 @@ BEGIN
      
      SELECT SUM(ValorTotal) into CreditoAnterior 
      FROM ContaBaixa 
-     WHERE Lancamento ='C'
+     WHERE CodConta = intCodConta
+     AND Lancamento ='C'
      AND DataPagamento <= dtDataAnterior;
      
      SELECT SUM(ValorTotal) into CreditoAtual 
      FROM ContaBaixa 
-     WHERE Lancamento ='C'
+     WHERE CodConta = intCodConta
+     AND Lancamento ='C'
      AND DataPagamento <= dtConsulta;
 
      SELECT SUM(ValorTotal) into DebitoAnterior 
      FROM ContaBaixa 
-     WHERE Lancamento ='D'
+     WHERE CodConta = intCodConta
+     AND Lancamento ='D'
      AND DataPagamento <= dtDataAnterior;
      
      SELECT SUM(ValorTotal) into DebitoAtual 
      FROM ContaBaixa 
-     WHERE Lancamento ='D'
+     WHERE CodConta = intCodConta
+     AND Lancamento ='D'
      AND DataPagamento <= dtConsulta;
 
      

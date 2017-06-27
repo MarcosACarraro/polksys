@@ -10,11 +10,12 @@ use bd_Sistema;
 
 call ContaListaPeriodos();
 
-call ContaSaldos('2017-01-31');
-call ContaExtrato('2017-01-08');
+call ContaSaldos('2017-06-26');
+call ContaExtrato('2017-06-26');
 call ContaExtrato('2017-01-08');
 
 drop procedure ContaExtrato
+drop procedure ContaSaldos
 drop procedure ContaListaPeriodos
 
 

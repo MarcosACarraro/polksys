@@ -267,7 +267,8 @@ var ctrContaPagarBaixa = (function () {
                 Valor: _valor,
                 ValorTotal: _valorTotal,
                 Situacao: "F",
-                Lancamento: "D"
+                Lancamento: "D",
+                CodConta:1
             };
 
             _sabeDB(_item);

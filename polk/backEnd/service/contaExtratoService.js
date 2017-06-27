@@ -8,9 +8,9 @@ var contaExtratoService = (function () {
             filtro.dataConsulta = null;
         }
 
-        var queryString = "call ContaExtrato(?)";
+        var queryString = "call ContaExtrato(?,?)";
         
-        var list = db.query(queryString, filtro.dataConsulta, function (err, rows, fields) {
+        var list = db.query(queryString, [filtro.CodConta,filtro.dataConsulta], function (err, rows, fields) {
             if (err) {
                 console.log(err);
                 throw err
@@ -27,9 +27,9 @@ var contaExtratoService = (function () {
             filtro.dataConsulta = null;
         }
 
-        var queryString = "call ContaSaldos(?)";
+        var queryString = "call ContaSaldos(?,?)";
 
-        var list = db.query(queryString, filtro.dataConsulta, function (err, rows, fields) {
+        var list = db.query(queryString, [filtro.CodConta,filtro.dataConsulta], function (err, rows, fields) {
             if (err) {
                 console.log(err);
                 throw err

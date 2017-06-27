@@ -7,7 +7,6 @@ var ctrExtrato = (function () {
     var _dtConsulta = new Date();
 
     var _create = function () {
-        
         createTable();
         LoadAll();
     }
@@ -50,7 +49,6 @@ var ctrExtrato = (function () {
         _table = window.document.createElement("table");
         _table.setAttribute("class", "table table-striped table-hover table-responsive");
 
-
         var row = _table.insertRow(0);
         var cell0 = row.insertCell(0);
         var cell1 = row.insertCell(1);
@@ -61,13 +59,17 @@ var ctrExtrato = (function () {
         cell1.innerHTML = "Descricao";
         cell2.innerHTML = "Data";
         cell3.innerHTML = "Valor";
-        cell4.innerHTML = "DC";
+        //cell4.innerHTML = "DC";
         _tableContainer.appendChild(_table);
     }
 
     function createSaldoAnterior() {
         var rowcab = _table.insertRow(1);
         rowcab.setAttribute("class", "saldos");
+
+        if (_saldos[0].SaldoAnterior < 0) {
+            rowcab.setAttribute("class", "debito");
+        }
 
         var cell0 = rowcab.insertCell(0);
         cell0.setAttribute("width", "30px");
@@ -81,13 +83,17 @@ var ctrExtrato = (function () {
         cell1.innerHTML = "Saldo Anterior";
         cell2.innerHTML = _formatDate(_saldos[0].DataSaldoAnterior);
         cell3.innerHTML = FormatRS(_saldos[0].SaldoAnterior);
-        cell4.innerHTML = "";
+        //cell4.innerHTML = "";
     }
 
 
     function createSaldoAtual(linha) {
         var rowcab = _table.insertRow(linha);
         rowcab.setAttribute("class", "saldos");
+
+        if (_saldos[0].SaldoAtual < 0) {
+            rowcab.setAttribute("class", "debito");
+        }
 
         var cell0 = rowcab.insertCell(0);
         cell0.setAttribute("width", "30px");
@@ -101,7 +107,7 @@ var ctrExtrato = (function () {
         cell1.innerHTML = "Saldo Atual";
         cell2.innerHTML = _formatDate(_saldos[0].DataSaldoConsulta);
         cell3.innerHTML = FormatRS(_saldos[0].SaldoAtual);
-        cell4.innerHTML = ""
+        //cell4.innerHTML = ""
     }
 
     var _tableDataBind = function () {
@@ -131,7 +137,7 @@ var ctrExtrato = (function () {
             cell1.innerHTML = _datasource[i].Descricao;
             cell2.innerHTML = _formatDate(_datasource[i].DataPagamento);
             cell3.innerHTML = FormatRS(_datasource[i].ValorTotal);
-            cell4.innerHTML = _datasource[i].Lancamento;
+            //cell4.innerHTML = _datasource[i].Lancamento;
         }
         linha++;
         createSaldoAtual(linha);
@@ -199,7 +205,8 @@ var ctrExtrato = (function () {
             type: "GET",
             data: {
                 cmd: "Select",
-                dataConsulta: _dtConsulta
+                dataConsulta: _dtConsulta,
+                CodConta: 1
             },
             datatype: "JSON",
             success: function (data, success) {
@@ -222,7 +229,8 @@ var ctrExtrato = (function () {
             type: "GET",
             data: {
                 cmd: "Select",
-                dataConsulta: _dtConsulta
+                dataConsulta: _dtConsulta,
+                CodConta: 1
             },
             datatype: "JSON",
             success: function (data, success) {
@@ -267,7 +275,11 @@ var ctrExtrato = (function () {
     }
 
     function FormatRS(value) {
+        var negative = false;
         var strNumber = value.toString();
+        if (strNumber.substring(0, 1) === "-") {
+            negative = true;
+        }
         strNumber = strNumber.replace(/[^0-9\.,]/g, "");
         if (strNumber == "") strNumber = "0";
         strNumber = strNumber.replace(',', '.')
@@ -282,7 +294,11 @@ var ctrExtrato = (function () {
             x1 = x1.replace(rgx, '$1' + ',' + '$2');
         }
 
-        return "R$ " + x1.replace(',', '.') + x2.replace('.', ',');
+        if (negative) {
+            return "R$ -" + x1.replace(',', '.') + x2.replace('.', ',');
+        } else {
+            return "R$ " + x1.replace(',', '.') + x2.replace('.', ',');
+        }
     }
 
     function _formatDate(dateTime) {

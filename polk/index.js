@@ -15,6 +15,7 @@ var direitoAcessoService = require('./BackEnd/service/direitoAcessoService');
 var contaLancamentoService = require('./BackEnd/service/contaLancamentoService');
 var contaBaixaService = require('./BackEnd/service/contaBaixaService');
 var contaExtratoService = require('./BackEnd/service/contaExtratoService');
+var contaService = require('./BackEnd/service/contaService');
 
 //var morgan = require("morgan");
 var jwt = require("jsonwebtoken");
@@ -445,6 +446,40 @@ app.get('/periodos', function (req, res) {
             });
         }
     }
+});
+
+
+app.get('/contas', function (req, res) {
+    if (req.query["cmd"] != null) {
+        if (req.query.cmd === "Select") {
+            contaService.select(db, req.query, function (rows) {
+                res.write(JSON.stringify(rows));
+                res.end();
+            });
+        }
+        if (req.query.cmd === "Count") {
+            contaService.select(db, req.query, function (rows) {
+                res.write(JSON.stringify(rows));
+                res.end();
+            });
+        }
+        if (req.query.cmd === "Delete") {
+            contaService.exclude(db, req.query, function (err) {
+                if (err) {
+                    res.end('{"error" : "error", "status" : 500}');
+                };
+                res.end('{"success" : "success", "status" : 200}');
+            });
+        }
+    }
+});
+
+
+app.post('/conta', function (req, res) {
+    var conta = req.body;
+    contaService.save(db, conta, function (result) {
+        res.end('{"success" : "success", "status" : 200}');
+    });
 });
 
 var server = app.listen(port);

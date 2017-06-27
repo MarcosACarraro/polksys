@@ -103,6 +103,11 @@ CREATE TABLE Profissional (
  );
 
 
+CREATE TABLE Conta (
+  CodConta INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  Descricao varchar(20) NULL
+); 
+
 
  CREATE TABLE ContaLancamento (
   CodContaLancamento INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -116,6 +121,7 @@ CREATE TABLE Profissional (
  CREATE TABLE ContaBaixa (
   CodContaBaixa INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   CodContaLancamento INT(6) UNSIGNED NULL,
+  CodConta INT(6) UNSIGNED NULL,
   Descricao varchar(20) NULL,
   DataPagamento datetime NULL,
   Valor decimal(13,2) NULL,
@@ -125,7 +131,7 @@ CREATE TABLE Profissional (
   ValorTotal decimal(13,2) NULL,
   Situacao Char(1) NULL,
   Lancamento  Char(1) NULL,
-  FOREIGN KEY (CodContaLancamento) REFERENCES ContaLancamento(CodContaLancamento)
+  FOREIGN KEY (CodContaLancamento) REFERENCES ContaLancamento(CodContaLancamento),
+  FOREIGN KEY (CodConta) REFERENCES Conta(CodConta)
 ); 
-
 

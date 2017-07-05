@@ -23,6 +23,8 @@ var router = (function () {
                 break;
             case "extrato": extrato();
                 break;
+            case "conta": conta();
+                break;
             default:
                 text = "";
         }
@@ -89,6 +91,11 @@ var router = (function () {
     function extrato() {
         $("#editContent").load("view/Extrato.html", function () {
             ctrExtrato.create();
+        });
+    }
+    function conta() {
+        $("#editContent").load("view/Conta.html", function () {
+            ctrConta.create();
         });
     }
     

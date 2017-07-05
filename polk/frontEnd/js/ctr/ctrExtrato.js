@@ -1,14 +1,56 @@
 var ctrExtrato = (function () {
     var _table = {};
+    var _tableConta = {};
     var _datasource = {};
+    var _datasourceContas = {};
     var _saldos = {};
     var _periodos = {};
+    var _codConta = 0;
     //var _dtConsulta = _SetDateTime("15/09/2017");
     var _dtConsulta = new Date();
 
     var _create = function () {
+        createTableContas();
         createTable();
-        LoadAll();
+    }
+
+
+    function createTableContas() {
+        /*table vai na div principal*/
+        var _tableContaContainer = window.document.getElementById("tableContaContainer");
+        _tableConta = window.document.createElement("table");
+        _tableConta.setAttribute("class", "table table-striped table-hover table-responsive");
+
+        var row = _tableConta.insertRow(0);
+        var cell0 = row.insertCell(0);
+        var cell1 = row.insertCell(1);
+        var cell2 = row.insertCell(2);
+        cell0.innerHTML = "codigo";
+        cell1.innerHTML = "Conta";
+        cell2.innerHTML = "Extrato";
+        _tableContaContainer.appendChild(_tableConta);
+
+        _loadContas();
+    }
+
+    var _tableDataBindContas = function () {
+        _limparContas.call(this);
+        var linha = 0;
+        for (var i = 0; i < _datasourceContas.length; i++) {
+            linha++;
+            var row = _tableConta.insertRow(linha);
+
+            var cell0 = row.insertCell(0);
+            cell0.setAttribute("width", "30px");
+
+            var cell1 = row.insertCell(1);
+            var cell2 = row.insertCell(2);
+            cell2.setAttribute("width", "30px");
+            cell2.setAttribute("align", "center");
+            cell0.innerHTML = _datasourceContas[i].CodConta;
+            cell1.innerHTML = _datasourceContas[i].Descricao;
+            cell2.innerHTML = "<a href='#' onClick='ctrExtrato.extratoAt(" + _datasourceContas[i].CodConta + ");return false;'><span class='glyphicon glyphicon-list-alt'></span></a></div>";
+        }
     }
 
     function LoadAll() {
@@ -54,12 +96,13 @@ var ctrExtrato = (function () {
         var cell1 = row.insertCell(1);
         var cell2 = row.insertCell(2);
         var cell3 = row.insertCell(3);
-        var cell4 = row.insertCell(4);
         cell0.innerHTML = "codigo";
         cell1.innerHTML = "Descricao";
         cell2.innerHTML = "Data";
         cell3.innerHTML = "Valor";
-        //cell4.innerHTML = "DC";
+        cell3.setAttribute("width", "100px");
+        cell3.setAttribute("align", "right");
+        
         _tableContainer.appendChild(_table);
     }
 
@@ -68,7 +111,7 @@ var ctrExtrato = (function () {
         rowcab.setAttribute("class", "saldos");
 
         if (_saldos[0].SaldoAnterior < 0) {
-            rowcab.setAttribute("class", "debito");
+            rowcab.setAttribute("class", "debito saldos");
         }
 
         var cell0 = rowcab.insertCell(0);
@@ -77,7 +120,9 @@ var ctrExtrato = (function () {
         var cell1 = rowcab.insertCell(1);
         var cell2 = rowcab.insertCell(2);
         var cell3 = rowcab.insertCell(3);
-        var cell4 = rowcab.insertCell(4);
+
+        cell3.setAttribute("width", "100px");
+        cell3.setAttribute("align", "right");
 
         cell0.innerHTML = "";
         cell1.innerHTML = "Saldo Anterior";
@@ -86,13 +131,12 @@ var ctrExtrato = (function () {
         //cell4.innerHTML = "";
     }
 
-
     function createSaldoAtual(linha) {
         var rowcab = _table.insertRow(linha);
         rowcab.setAttribute("class", "saldos");
 
         if (_saldos[0].SaldoAtual < 0) {
-            rowcab.setAttribute("class", "debito");
+            rowcab.setAttribute("class", "debito saldos");
         }
 
         var cell0 = rowcab.insertCell(0);
@@ -101,7 +145,9 @@ var ctrExtrato = (function () {
         var cell1 = rowcab.insertCell(1);
         var cell2 = rowcab.insertCell(2);
         var cell3 = rowcab.insertCell(3);
-        var cell4 = rowcab.insertCell(4);
+
+        cell3.setAttribute("width", "100px");
+        cell3.setAttribute("align", "right");
 
         cell0.innerHTML = "";
         cell1.innerHTML = "Saldo Atual";
@@ -131,7 +177,9 @@ var ctrExtrato = (function () {
             var cell1 = row.insertCell(1);
             var cell2 = row.insertCell(2);
             var cell3 = row.insertCell(3);
-            var cell4 = row.insertCell(4);
+
+            cell3.setAttribute("width", "100px");
+            cell3.setAttribute("align", "right");
 
             cell0.innerHTML = _datasource[i].CodContaBaixa;
             cell1.innerHTML = _datasource[i].Descricao;
@@ -197,6 +245,31 @@ var ctrExtrato = (function () {
         return dateTime;
     }
 
+    function _loadContas() {
+        $.ajax({
+            async: true,
+            cache: false,
+            url: "contas",
+            type: "GET",
+            data: {
+                cmd: "Select",
+                Descricao:"",
+                skip: 0,
+                take: 1000
+            },
+            datatype: "JSON",
+            success: function (data, success) {
+                if (success = "success") {
+                    _datasourceContas = JSON.parse(data);
+                    _tableDataBindContas.call(this);
+                }
+            },
+            error: function () {
+                alert('Erro carregar registros!');
+            }
+        });
+    }
+
     function _Load() {
         $.ajax({
             async: true,
@@ -206,7 +279,7 @@ var ctrExtrato = (function () {
             data: {
                 cmd: "Select",
                 dataConsulta: _dtConsulta,
-                CodConta: 1
+                CodConta: _codConta
             },
             datatype: "JSON",
             success: function (data, success) {
@@ -230,7 +303,7 @@ var ctrExtrato = (function () {
             data: {
                 cmd: "Select",
                 dataConsulta: _dtConsulta,
-                CodConta: 1
+                CodConta: _codConta
             },
             datatype: "JSON",
             success: function (data, success) {
@@ -271,6 +344,14 @@ var ctrExtrato = (function () {
         var rowCount = _table.rows.length;
         for (var i = tableHeaderRowCount; i < rowCount; i++) {
             _table.deleteRow(tableHeaderRowCount);
+        }
+    }
+
+    var _limparContas = function () {
+        var tableHeaderRowCount = 1;
+        var rowCount = _tableConta.rows.length;
+        for (var i = tableHeaderRowCount; i < rowCount; i++) {
+            _tableConta.deleteRow(tableHeaderRowCount);
         }
     }
 
@@ -325,10 +406,48 @@ var ctrExtrato = (function () {
         }
      
     }
+
+    var _extratoAt = function (id) {
+        _codConta = id;
+        var _descricao = "";
+
+        for (var i = 0; i < _datasourceContas.length; i++) {
+            if (_datasourceContas[i].CodConta === id) {
+                _descricao = _datasourceContas[i].Descricao;
+            }
+        }
+
+        LoadAll();
+        var _divConta = window.document.getElementById("divConta");
+
+        _contasNav = window.document.getElementById("contasNav");
+        if (_contasNav) _contasNav.remove();
+
+        _contasNav = window.document.createElement("ul");
+        _contasNav.setAttribute("id", "contasNav")
+        _contasNav.setAttribute("class", "nav nav-pills nav-justified");
+
+         var li = window.document.createElement("li");
+         li.innerHTML = "<a href='#'>" + _descricao + "</a>";
+         li.setAttribute("class", "active");
+         _contasNav.appendChild(li);
     
+         _divConta.appendChild(_contasNav);
+
+         $("#divContas").collapse('hide');
+         $("#divExtrato").collapse('show');
+
+    }
+
+    var _close = function () {
+        $("#divContas").collapse('show');
+        $("#divExtrato").collapse('hide');
+    }
 
     return {
         create: _create,
-        SetActive: _SetActive
+        SetActive: _SetActive,
+        extratoAt: _extratoAt,
+        close: _close
     }
 })();

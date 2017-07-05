@@ -5,6 +5,7 @@ var ctrContaPagarBaixa = (function () {
     var _txtDesconto = {};
     var _txtJuros = {};
     var _txtMulta = {};
+    var _ddlConta = {};
     var _valor = 0;
     var _valorTotal = 0;
     var _desconto = 0;
@@ -16,7 +17,8 @@ var ctrContaPagarBaixa = (function () {
         _resetValidation.call(this);
     }
 
-    function createEdit(id,valor) {
+    function createEdit(id, valor) {
+        _loadConta();
         _valor = valor
         _valorTotal = valor
 
@@ -268,7 +270,7 @@ var ctrContaPagarBaixa = (function () {
                 ValorTotal: _valorTotal,
                 Situacao: "F",
                 Lancamento: "D",
-                CodConta:1
+                CodConta: _ddlConta.options[_ddlConta.selectedIndex].value
             };
 
             _sabeDB(_item);
@@ -309,6 +311,44 @@ var ctrContaPagarBaixa = (function () {
         _txtMulta.value = "";
     }
    
+    function _loadConta() {
+        var item = document.createElement("option");
+        item.text = "Selecione";
+        item.value = 0;
+        _ddlConta = window.document.getElementById("ddlConta");
+        _ddlConta.options.length = 0;
+        _ddlConta.appendChild(item);
+
+        $.ajax({
+            async: true,
+            cache: false,
+            url: "/contas",
+            type: "GET",
+            data: {
+                cmd: "Select",
+                Descricao: "",
+                skip: 0,
+                take: 1000
+            },
+            datatype: "JSON",
+            success: function (data, success) {
+                if (success = "success") {
+                    var result = JSON.parse(data);
+                    for (var i = 0; i < result.length; i++) {
+                        var item = document.createElement("option");
+                        item.text = result[i].Descricao;
+                        item.value = result[i].CodConta;
+                        _ddlConta.appendChild(item)
+                    }
+                }
+            },
+            error: function () {
+                alert('Erro carregar registros contas!');
+            }
+        });
+    }
+
+
     return {
         create: _create,
         confirmar: _confirmar

@@ -6,7 +6,7 @@ BEGIN
      
      SELECT CodContaBaixa,
             CodContaLancamento,
-            Desconto,
+            Descricao,
             DataPagamento,
             Valor,
             Desconto,

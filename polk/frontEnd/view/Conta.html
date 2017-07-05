@@ -1,0 +1,41 @@
+﻿<div id="gridPainel" class="panel-collapse collapse in" aria-expanded="true">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span><span>&nbsp;Conta</span></h3>
+            <span id="iconFilter" onclick="javascript:ctrConta.toggleFilter();" class="pull-right clickable">Filtrar &nbsp;<i class="glyphicon glyphicon-filter"></i></span>
+        </div>
+        <div id="divFilterBodyCollapse" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+            <div id="bodyFilter" class="panel-body">
+                <input id="txtSearh" type="text" class="search">
+            </div>
+        </div>
+        <div class="container panel-table" id="tableContainer">
+        </div>
+        <div class="panel-footer">
+            <div id="divPaging"></div>
+            <button class="btn btn-primary pull-right" name="btnNew" onclick="javascript:ctrConta.newItem();">Novo</button><div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+ <div id="editPainel" class="panel-collapse collapse" aria-expanded="true">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <span class='glyphicon glyphicon-th-list'></span><span>&nbsp;Conta</span>
+            </div>
+            <div class="panel-body">
+                <div id="divConta">
+                    <label class="control-label" for="txtDescricao">Conta</label>
+                    <input id="txtDescricao" type="text" name="txtDescricao" class="form-control" />
+                    <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                    <span id="hbConta" class="help-block">Conta</span>
+                </div>
+                <div id="divAlertSave" class="alert alert-danger">
+                    <strong>Sinto Muito!</strong> Não foi possível salvar!! 
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button type="button" class="btn btn-default" onclick="javascript:ctrConta.editClose();">Fechar</button>
+                <button type="button" class="btn btn-primary" onclick="javascript:ctrConta.save();">Salvar</button>
+            </div>
+        </div>
+    </div>

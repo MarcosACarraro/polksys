@@ -20,6 +20,7 @@ var ctrContaPagar = (function () {
         createFilter();
         createTable();
         createEdit();
+
         _confirmContaLancamento = ConfirmDelete();
         _confirmContaLancamento.create("divConfirm", "ContaLancamento");
     }
@@ -643,6 +644,7 @@ var ctrContaPagar = (function () {
             _toShow = true;
         }
     }
+
    
     return {
         create: _create,

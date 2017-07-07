@@ -16,6 +16,7 @@ var contaLancamentoService = require('./BackEnd/service/contaLancamentoService')
 var contaBaixaService = require('./BackEnd/service/contaBaixaService');
 var contaExtratoService = require('./BackEnd/service/contaExtratoService');
 var contaService = require('./BackEnd/service/contaService');
+var contaContabilService = require('./BackEnd/service/contaContabilService');
 
 //var morgan = require("morgan");
 var jwt = require("jsonwebtoken");
@@ -481,6 +482,40 @@ app.post('/conta', function (req, res) {
         res.end('{"success" : "success", "status" : 200}');
     });
 });
+
+app.get('/contaContabeis', function (req, res) {
+    if (req.query["cmd"] != null) {
+        if (req.query.cmd === "Select") {
+            contaContabilService.select(db, req.query, function (rows) {
+                res.write(JSON.stringify(rows));
+                res.end();
+            });
+        }
+        if (req.query.cmd === "Count") {
+            contaContabilService.select(db, req.query, function (rows) {
+                res.write(JSON.stringify(rows));
+                res.end();
+            });
+        }
+        if (req.query.cmd === "Delete") {
+            contaContabilService.exclude(db, req.query, function (err) {
+                if (err) {
+                    res.end('{"error" : "error", "status" : 500}');
+                };
+                res.end('{"success" : "success", "status" : 200}');
+            });
+        }
+    }
+});
+
+
+app.post('/contaContabel', function (req, res) {
+    var conta = req.body;
+    contaContabilService.save(db, conta, function (result) {
+        res.end('{"success" : "success", "status" : 200}');
+    });
+});
+
 
 var server = app.listen(port);
 console.log('Servidor Express iniciado na porta %s', server.address().port);

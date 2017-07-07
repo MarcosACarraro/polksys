@@ -6,6 +6,7 @@ var ctrContaPagarBaixa = (function () {
     var _txtJuros = {};
     var _txtMulta = {};
     var _ddlConta = {};
+    var _ddlContaContabil = {};
     var _valor = 0;
     var _valorTotal = 0;
     var _desconto = 0;
@@ -19,6 +20,7 @@ var ctrContaPagarBaixa = (function () {
 
     function createEdit(id, valor) {
         _loadConta();
+        _loadContaContabil();
         _valor = valor
         _valorTotal = valor
 
@@ -270,7 +272,8 @@ var ctrContaPagarBaixa = (function () {
                 ValorTotal: _valorTotal,
                 Situacao: "F",
                 Lancamento: "D",
-                CodConta: _ddlConta.options[_ddlConta.selectedIndex].value
+                CodConta: _ddlConta.options[_ddlConta.selectedIndex].value,
+                CodContaContabil: _ddlContaContabil.options[_ddlContaContabil.selectedIndex].value
             };
 
             _sabeDB(_item);
@@ -339,6 +342,43 @@ var ctrContaPagarBaixa = (function () {
                         item.text = result[i].Descricao;
                         item.value = result[i].CodConta;
                         _ddlConta.appendChild(item)
+                    }
+                }
+            },
+            error: function () {
+                alert('Erro carregar registros contas!');
+            }
+        });
+    }
+
+    function _loadContaContabil() {
+        var item = document.createElement("option");
+        item.text = "Selecione";
+        item.value = 0;
+        _ddlContaContabil = window.document.getElementById("ddlContaContabil");
+        _ddlContaContabil.options.length = 0;
+        _ddlContaContabil.appendChild(item);
+
+        $.ajax({
+            async: true,
+            cache: false,
+            url: "/contaContabeis",
+            type: "GET",
+            data: {
+                cmd: "Select",
+                Descricao: "",
+                skip: 0,
+                take: 1000
+            },
+            datatype: "JSON",
+            success: function (data, success) {
+                if (success = "success") {
+                    var result = JSON.parse(data);
+                    for (var i = 0; i < result.length; i++) {
+                        var item = document.createElement("option");
+                        item.text = result[i].Descricao;
+                        item.value = result[i].CodContaContabil;
+                        _ddlContaContabil.appendChild(item)
                     }
                 }
             },

@@ -25,6 +25,8 @@ var router = (function () {
                 break;
             case "conta": conta();
                 break;
+            case "contaContabil": contaContabil();
+                break;
             default:
                 text = "";
         }
@@ -98,7 +100,12 @@ var router = (function () {
             ctrConta.create();
         });
     }
-    
+    function contaContabil() {
+        $("#editContent").load("view/ContaContabil.html", function () {
+            ctrContaContabil.create();
+        });
+    }
+
     return {
         getRoute: _getRoute
     }

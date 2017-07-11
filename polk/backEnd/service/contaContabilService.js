@@ -16,6 +16,17 @@ var contaContabilService = (function () {
         });
     }
 
+    var _selectLancamento = function (db, filtro, callback) {
+        var queryString = 'SELECT * FROM ContaContabil WHERE Lancamento = ?';
+        var list = db.query(queryString, [filtro.Lancamento], function (err, rows, fields) {
+            if (err) {
+                console.log(err);
+                throw err
+            };
+            callback(rows)
+        });
+    }
+
     var _save = function (db, contaContabil, callback) {
         if (contaContabil.CodContaContabil === "0") {
             delete contaContabil.CodContaContabil;
@@ -27,7 +38,7 @@ var contaContabilService = (function () {
                 callback(result);
             });
         } else {
-            var query = db.query('UPDATE  ContaContabil SET Descricao = ?  WHERE CodContaContabil = ?', [contaContabil.Descricao, contaContabil.CodContaContabil], function (err, result) {
+            var query = db.query('UPDATE  ContaContabil SET Descricao = ?, Lancamento = ?   WHERE CodContaContabil = ?', [contaContabil.Descricao, contaContabil.Lancamento, contaContabil.CodContaContabil], function (err, result) {
                 if (err) {
                     console.log(err);
                     throw err
@@ -51,6 +62,7 @@ var contaContabilService = (function () {
         select: _select,
         save: _save,
         exclude: _exclude,
+        selectLancamento: _selectLancamento
     }
 })();
 

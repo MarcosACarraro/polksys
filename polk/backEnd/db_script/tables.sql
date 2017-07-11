@@ -139,7 +139,8 @@ CREATE TABLE Conta (
 
  CREATE TABLE ContaContabil (
   CodContaContabil INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  Descricao varchar(50) NULL
+  Descricao varchar(50) NULL,
+  Lancamento  Char(1) NULL
 );
   
 

@@ -491,6 +491,12 @@ app.get('/contaContabeis', function (req, res) {
                 res.end();
             });
         }
+        if (req.query.cmd === "SelectLancamento") {
+            contaContabilService.selectLancamento(db, req.query, function (rows) {
+                res.write(JSON.stringify(rows));
+                res.end();
+            });
+        }
         if (req.query.cmd === "Count") {
             contaContabilService.select(db, req.query, function (rows) {
                 res.write(JSON.stringify(rows));

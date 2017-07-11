@@ -365,10 +365,8 @@ var ctrContaReceberBaixa = (function () {
             url: "/contaContabeis",
             type: "GET",
             data: {
-                cmd: "Select",
-                Descricao: "",
-                skip: 0,
-                take: 1000
+                cmd: "SelectLancamento",
+                Lancamento: "C"
             },
             datatype: "JSON",
             success: function (data, success) {

@@ -6,6 +6,7 @@ var ctrContaContabil = (function () {
     var _table = {};
     var _formValid = 0;
     var _pagination = {};
+    var _ddlLancamento = {};
     var _skip = 0;
     var _take = 10;
     var _indexPage = 1;
@@ -47,10 +48,12 @@ var ctrContaContabil = (function () {
         var cell1 = row.insertCell(1);
         var cell2 = row.insertCell(2);
         var cell3 = row.insertCell(3);
+        var cell4 = row.insertCell(4);
         cell0.innerHTML = "codigo";
         cell1.innerHTML = "Conta";
-        cell2.innerHTML = "Editar";
-        cell3.innerHTML = "Excluir"
+        cell2.innerHTML = "Lancamento";
+        cell3.innerHTML = "Editar";
+        cell4.innerHTML = "Excluir"
         _tableContainer.appendChild(_table);
 
         _search("");
@@ -62,6 +65,8 @@ var ctrContaContabil = (function () {
         _txtDescricao.onkeyup = _txtDescricaoValidade;
         _txtDescricao.setAttribute("maxlength", "50");
         _resetValidation.call(this);
+
+        _ddlLancamento = window.document.getElementById("ddlLancamento");
 
         $("#gridPainel").collapse('show');
         $("#editPainel").collapse('hide');
@@ -77,18 +82,23 @@ var ctrContaContabil = (function () {
             cell0.setAttribute("width", "30px");
 
             var cell1 = row.insertCell(1);
-
             var cell2 = row.insertCell(2);
             cell2.setAttribute("width", "30px");
             cell2.setAttribute("align", "center");
+
             var cell3 = row.insertCell(3);
             cell3.setAttribute("width", "30px");
             cell3.setAttribute("align", "center");
 
+            var cell4 = row.insertCell(4);
+            cell4.setAttribute("width", "30px");
+            cell4.setAttribute("align", "center");
+
             cell0.innerHTML = _datasource[i].CodContaContabil;
             cell1.innerHTML = _datasource[i].Descricao;
-            cell2.innerHTML = "<a href='#' onClick='ctrContaContabil.editAt(" + _datasource[i].CodContaContabil + ");return false;'><span class='glyphicon glyphicon-edit'></span></a></div>";
-            cell3.innerHTML = "<a href='#' onClick='ctrContaContabil.confirm(" + _datasource[i].CodContaContabil + ");return false;'><span class='glyphicon glyphicon-trash'></span></a></div>";
+            cell2.innerHTML = _datasource[i].Lancamento;
+            cell3.innerHTML = "<a href='#' onClick='ctrContaContabil.editAt(" + _datasource[i].CodContaContabil + ");return false;'><span class='glyphicon glyphicon-edit'></span></a></div>";
+            cell4.innerHTML = "<a href='#' onClick='ctrContaContabil.confirm(" + _datasource[i].CodContaContabil + ");return false;'><span class='glyphicon glyphicon-trash'></span></a></div>";
         }
     }
 
@@ -105,6 +115,7 @@ var ctrContaContabil = (function () {
     var _newItem = function () {
         _idEdit = 0;
         _txtDescricao.value = "";
+        _ddlLancamento.selectedIndex = 0;
         $("#gridPainel").collapse('hide');
         $("#editPainel").collapse('show');
         _resetValidation.call(this);
@@ -117,7 +128,7 @@ var ctrContaContabil = (function () {
     }
 
     var _txtDescricaoValidade = function () {
-        if (_txtDescricao.value.length > 3) {
+        if (_txtDescricao.value.length > 2) {
             return _toggleValidade.call(this, _txtDescricao, true, "");
         } else {
             return _toggleValidade.call(this, _txtDescricao, false, "Erro na Conta!!!");
@@ -157,7 +168,8 @@ var ctrContaContabil = (function () {
         if (_validate.call(this)) {
             var _item = {
                 CodContaContabil: _idEdit,
-                Descricao: _txtDescricao.value
+                Descricao: _txtDescricao.value,
+                Lancamento: _ddlLancamento.options[_ddlLancamento.selectedIndex].value
             };
 
             _sabeDB(_item);
@@ -182,8 +194,16 @@ var ctrContaContabil = (function () {
             if (_datasource[i].CodContaContabil === id) {
                 _txtDescricao.value = _datasource[i].Descricao;
                 _idEdit = id;
+
+                for (n = 0; n < _ddlLancamento.options.length; n++) {
+                    if (_ddlLancamento.options[n].value == _datasource[i].Lancamento) {
+                        _ddlLancamento.selectedIndex = n;
+                    }
+                }
             }
         }
+
+
         $("#gridPainel").collapse('hide');
         $("#editPainel").collapse('show');
         _resetValidation.call(this);
